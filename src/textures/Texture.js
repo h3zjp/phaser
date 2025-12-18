@@ -563,6 +563,42 @@ var Texture = new Class({
     },
 
     /**
+     * Set the wrap mode for this Texture.
+     *
+     * This is only available for WebGL.
+     *
+     * The wrap mode can be one of the following:
+     *
+     * - Phaser.Textures.WrapMode.CLAMP_TO_EDGE
+     * - Phaser.Textures.WrapMode.REPEAT
+     * - Phaser.Textures.WrapMode.MIRRORED_REPEAT
+     *
+     * Note that only CLAMP_TO_EDGE is supported for non-power of two textures.
+     * If another wrap mode is specified for such a texture, it will be ignored.
+     *
+     * @method Phaser.Textures.Texture#setWrap
+     * @since 4.0.0
+     * @webglonly
+     *
+     * @param {Phaser.Textures.WrapMode} wrapModeS - The wrap mode for the S (horizontal) axis.
+     * @param {Phaser.Textures.WrapMode} [wrapModeT] - The wrap mode for the T (vertical) axis.
+     */
+    setWrap: function (wrapModeS, wrapModeT)
+    {
+        if (wrapModeT === undefined) { wrapModeT = wrapModeS; }
+
+        for (var i = 0; i < this.source.length; i++)
+        {
+            this.source[i].setWrap(wrapModeS, wrapModeT);
+        }
+
+        for (i = 0; i < this.dataSource.length; i++)
+        {
+            this.dataSource[i].setWrap(wrapModeS, wrapModeT);
+        }
+    },
+
+    /**
      * Destroys this Texture and releases references to its sources and frames.
      *
      * @method Phaser.Textures.Texture#destroy

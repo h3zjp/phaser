@@ -315,6 +315,38 @@ var TextureSource = new Class({
     },
 
     /**
+     * Sets the wrap mode for this TextureSource.
+     * This is only available for WebGL.
+     *
+     * The wrap mode can be one of the following:
+     *
+     * - Phaser.Textures.WrapMode.CLAMP_TO_EDGE
+     * - Phaser.Textures.WrapMode.REPEAT
+     * - Phaser.Textures.WrapMode.MIRRORED_REPEAT
+     *
+     * Note that only CLAMP_TO_EDGE is supported for non-power of two textures.
+     * If another wrap mode is specified for such a texture, it will be ignored.
+     *
+     * @method Phaser.Textures.TextureSource#setWrap
+     * @since 4.0.0
+     * @webglonly
+     *
+     * @param {Phaser.Textures.WrapMode} wrapModeS - The wrap mode for the S (horizontal) axis.
+     * @param {Phaser.Textures.WrapMode} wrapModeT - The wrap mode for the T (vertical) axis.
+     *
+     * @return {this} This TextureSource instance.
+     */
+    setWrap: function (wrapModeS, wrapModeT)
+    {
+        if (this.renderer && this.renderer.gl)
+        {
+            this.renderer.setTextureWrap(this.glTexture, wrapModeS, wrapModeT);
+        }
+
+        return this;
+    },
+
+    /**
      * If this TextureSource is backed by a Canvas and is running under WebGL,
      * it updates the WebGLTexture using the canvas data.
      *

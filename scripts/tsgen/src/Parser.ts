@@ -122,6 +122,7 @@ export class Parser {
                 case 'Phaser.Scale.ScaleModes':
                 case 'Phaser.Scale.Zoom':
                 case 'Phaser.Textures.FilterMode':
+                case 'Phaser.Textures.WrapMode':
                 case 'Phaser.Tilemaps.Orientation':
                 case 'Phaser.Tweens.States':
                     // console.log('Forcing enum for ' + doclet.longname);

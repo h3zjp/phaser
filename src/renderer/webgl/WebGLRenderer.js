@@ -852,11 +852,11 @@ var WebGLRenderer = new Class({
 
     /**
      * Queries the GL context to get the supported extensions.
-     * 
+     *
      * Then sets them into the `supportedExtensions`, `instancedArraysExtension` and `vaoExtension` properties.
-     * 
+     *
      * Called automatically during the `init` method.
-     * 
+     *
      * @method Phaser.Renderer.WebGL.WebGLRenderer#setExtensions
      * @since 3.85.2
      */
@@ -940,12 +940,12 @@ var WebGLRenderer = new Class({
 
     /**
      * Sets the handlers that are called when WebGL context is lost or restored by the browser.
-     * 
+     *
      * The default handlers are referenced via the properties `WebGLRenderer.contextLostHandler` and `WebGLRenderer.contextRestoredHandler`.
      * By default, these map to the methods `WebGLRenderer.dispatchContextLost` and `WebGLRenderer.dispatchContextRestored`.
-     * 
+     *
      * You can override these handlers with your own via this method.
-     * 
+     *
      * If you do override them, make sure that your handlers invoke the methods `WebGLRenderer.dispatchContextLost` and `WebGLRenderer.dispatchContextRestored` in due course, otherwise the renderer will not be able to restore itself fully.
      *
      * @method Phaser.Renderer.WebGL.WebGLRenderer#setContextHandlers
@@ -996,7 +996,7 @@ var WebGLRenderer = new Class({
      *
      * @method Phaser.Renderer.WebGL.WebGLRenderer#dispatchContextLost
      * @since 3.85.0
-     * 
+     *
      * @param {WebGLContextEvent } event - The WebGL context lost Event.
      */
     dispatchContextLost: function (event)
@@ -1019,7 +1019,7 @@ var WebGLRenderer = new Class({
      *
      * @method Phaser.Renderer.WebGL.WebGLRenderer#dispatchContextRestored
      * @since 3.85.0
-     * 
+     *
      * @param {WebGLContextEvent } event - The WebGL context restored Event.
 
      */
@@ -2540,6 +2540,61 @@ var WebGLRenderer = new Class({
             glFilter,
             glFilter,
             texture.format
+        );
+        if (currentTexture)
+        {
+            texUnits.bind(currentTexture, 0);
+        }
+
+        return this;
+    },
+
+    /**
+     * Sets the wrap mode for a texture.
+     *
+     * The wrap mode can be one of the following:
+     *
+     * - Phaser.Textures.WrapMode.CLAMP_TO_EDGE
+     * - Phaser.Textures.WrapMode.REPEAT
+     * - Phaser.Textures.WrapMode.MIRRORED_REPEAT
+     *
+     * Note that only CLAMP_TO_EDGE is supported for non-power of two textures.
+     * If another wrap mode is specified for such a texture, it will be ignored.
+     *
+     * @method Phaser.Renderer.WebGL.WebGLRenderer#setTextureWrap
+     * @since 4.0.0
+     *
+     * @param {Phaser.Renderer.WebGL.Wrappers.WebGLTextureWrapper} glTextureWrapper - The WebGL Texture Wrapper to set the wrap mode for.
+     * @param {Phaser.Textures.WrapMode} wrapModeS - The wrap mode for the S (horizontal) axis.
+     * @param {Phaser.Textures.WrapMode} wrapModeT - The wrap mode for the T (vertical) axis.
+     *
+     * @return {this} This WebGL Renderer instance.
+     */
+    setTextureWrap: function (glTextureWrapper, wrapModeS, wrapModeT)
+    {
+        var gl = this.gl;
+
+        if (!IsSizePowerOfTwo(glTextureWrapper.width, glTextureWrapper.height))
+        {
+            if (wrapModeS !== gl.CLAMP_TO_EDGE || wrapModeT !== gl.CLAMP_TO_EDGE)
+            {
+                return this;
+            }
+        }
+
+        var texUnits = this.glTextureUnits;
+        var currentTexture = texUnits.units[0];
+        texUnits.bind(glTextureWrapper, 0);
+        glTextureWrapper.update(
+            glTextureWrapper.pixels,
+            glTextureWrapper.width,
+            glTextureWrapper.height,
+            glTextureWrapper.flipY,
+            wrapModeS,
+            wrapModeT,
+            glTextureWrapper.minFilter,
+            glTextureWrapper.magFilter,
+            glTextureWrapper.format
         );
         if (currentTexture)
         {
