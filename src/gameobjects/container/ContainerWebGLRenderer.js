@@ -37,7 +37,7 @@ var ContainerWebGLRenderer = function (renderer, container, drawingContext, pare
         return;
     }
 
-    var currentContext = drawingContext;
+    var baseContext = drawingContext;
 
     var transformMatrix = container.localTransform;
 
@@ -56,13 +56,15 @@ var ContainerWebGLRenderer = function (renderer, container, drawingContext, pare
 
     var containerHasBlendMode = (container.blendMode !== -1);
 
-    if (!containerHasBlendMode && currentContext.blendMode !== 0)
+    if (!containerHasBlendMode && baseContext.blendMode !== 0)
     {
         //  If Container is SKIP_TEST then set blend mode to be Normal
-        currentContext = currentContext.getClone();
-        currentContext.setBlendMode(0);
-        currentContext.use();
+        baseContext = baseContext.getClone();
+        baseContext.setBlendMode(0);
+        baseContext.use();
     }
+
+    var currentContext = baseContext;
 
     var alpha = container.alpha;
 
@@ -110,9 +112,13 @@ var ContainerWebGLRenderer = function (renderer, container, drawingContext, pare
         )
         {
             //  If Container doesn't have its own blend mode, then a child can have one
-            currentContext = currentContext.getClone();
+            currentContext = baseContext.getClone();
             currentContext.setBlendMode(child.blendMode);
             currentContext.use();
+        }
+        else
+        {
+            currentContext = baseContext;
         }
 
         //  Set parent values
