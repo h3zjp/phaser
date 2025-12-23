@@ -24,6 +24,7 @@
 - `ParallelFilters` filter memory leak eliminated (this would occur when both passes had active filters).
 - `TilemapGPULayer` now respects camera translation. Thanks @aroman!
 - Fixed a crash in `TweenBuilder` when the targets array contains null or undefined elements (thanks @aomsir)
+- The Loader `GetURL` function did not treat `file://` URLs as absolute. When a baseURL is set, it gets prepended to an already-absolute path, producing double-prefixed URLs (thanks @aomsir)
 
 ## Examples, Documentation, Beta Testing and TypeScript
 
@@ -33,3 +34,4 @@ Thanks to the following for helping with the Phaser Examples, Beta Testing, Docs
 @Urantij
 @justin-calleja
 @DayKev
+@samme
