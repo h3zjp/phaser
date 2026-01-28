@@ -62,8 +62,8 @@ var ParseXMLBitmapFont = function (xml, frame, xSpacing, ySpacing, texture)
 
     if (adjustForTrim)
     {
-        var trimX = frame.data.spriteSourceSize.x - frame.data.cut.x;
-        var trimY = frame.data.spriteSourceSize.y - frame.data.cut.y;
+        var trimX = frame.data.spriteSourceSize.x;
+        var trimY = frame.data.spriteSourceSize.y;
     }
 
     for (var i = 0; i < letters.length; i++)
@@ -110,7 +110,7 @@ var ParseXMLBitmapFont = function (xml, frame, xSpacing, ySpacing, texture)
 
         if (texture && gw !== 0 && gh !== 0)
         {
-            texture.add(letter, sourceIndex, gx, gy, gw, gh);
+            texture.add(letter, sourceIndex, gx + frame.data.cut.x, gy + frame.data.cut.y, gw, gh);
         }
     }
 
