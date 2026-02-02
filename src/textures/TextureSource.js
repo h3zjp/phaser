@@ -24,7 +24,7 @@ var WebGLTextureWrapper = require('../renderer/webgl/wrappers/WebGLTextureWrappe
  * @since 3.0.0
  *
  * @param {Phaser.Textures.Texture} texture - The Texture this TextureSource belongs to.
- * @param {(HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|Phaser.GameObjects.RenderTexture|Phaser.Renderer.WebGL.Wrappers.WebGLTextureWrapper|Phaser.Types.Textures.CompressedTextureData|Phaser.Textures.DynamicTexture)} source - The source image data.
+ * @param {Phaser.Types.Textures.TextureSource} source - The source image data.
  * @param {number} [width] - Optional width of the source image. If not given it's derived from the source itself.
  * @param {number} [height] - Optional height of the source image. If not given it's derived from the source itself.
  * @param {boolean} [flipY=true] - Sets the `UNPACK_FLIP_Y_WEBGL` flag the WebGL Texture uses during upload.
@@ -65,7 +65,7 @@ var TextureSource = new Class({
          * In Phaser 3.60 and above it can also be a Compressed Texture data object.
          *
          * @name Phaser.Textures.TextureSource#source
-         * @type {(HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|Phaser.GameObjects.RenderTexture|Phaser.Renderer.WebGL.Wrappers.WebGLTextureWrapper|Phaser.Types.Textures.CompressedTextureData|Phaser.Textures.DynamicTexture)}
+         * @type {Phaser.Types.Textures.TextureSource}
          * @since 3.12.0
          */
         this.source = source;
@@ -73,10 +73,13 @@ var TextureSource = new Class({
         /**
          * The image data.
          *
-         * This is either an Image element, Canvas element, Video Element, or Uint8Array.
+         * This is either an Image element, Canvas element, Video Element,
+         * or null if the `source` is not an HTMLElement.
+         * Non-HTMLElement sources include compressed textures, data arrays,
+         * and references to other WebGL textures.
          *
          * @name Phaser.Textures.TextureSource#image
-         * @type {(HTMLImageElement|HTMLCanvasElement|HTMLVideoElement|Uint8Array)}
+         * @type {Phaser.Types.Textures.TextureSourceElement | null}
          * @since 3.0.0
          */
         this.image = (source.compressed) ? null : source;
@@ -248,7 +251,7 @@ var TextureSource = new Class({
                 }
                 else if (source instanceof Uint8Array)
                 {
-                    this.glTexture = renderer.createUint8ArrayTexture(source, width, height, scaleMode, undefined, flipY);
+                    this.glTexture = renderer.createUint8ArrayTexture(source, width, height, undefined, flipY);
                 }
                 else
                 {
@@ -347,8 +350,11 @@ var TextureSource = new Class({
     },
 
     /**
-     * If this TextureSource is backed by a Canvas and is running under WebGL,
-     * it updates the WebGLTexture using the canvas data.
+     * Update the underlying WebGLTexture with the current source data.
+     * This is called automatically by game systems which manage textures,
+     * such as Text or Video, or on internal data changes.
+     * You should not need to call this method manually unless you are
+     * manually updating the source data.
      *
      * @method Phaser.Textures.TextureSource#update
      * @since 3.7.0
@@ -374,7 +380,7 @@ var TextureSource = new Class({
             else
             {
                 textureWrapper.update(
-                    image,
+                    this.source,
                     this.width,
                     this.height,
                     flipY,
@@ -407,6 +413,49 @@ var TextureSource = new Class({
         this.width = width;
         this.height = height;
         this.isPowerOf2 = IsSizePowerOfTwo(width, height);
+    },
+
+    /**
+     * Change the source data of this TextureSource.
+     * This will update the underlying WebGLTexture with the new source data.
+     *
+     * Note that this will not update any consumers of the texture.
+     * Frames and game objects with the `Size` component
+     * will automatically cache width and height on creation, so you will need
+     * to update them if you change the resolution of the texture this way.
+     *
+     * @example
+     * // `logo` is a sprite
+     * // `newImage` is an ImageElement with the new source data
+     * logo.frame.source.updateSource(newImage);
+     * logo.texture.get("__BASE").setSize(logo.frame.source.width, logo.frame.source.height);
+     * logo.setSize(logo.frame.source.width, logo.frame.source.height);
+     * logo.setOrigin(0.5, 0.5);
+     *
+     * @method Phaser.Textures.TextureSource#updateSource
+     * @since 4.0.0
+     *
+     * @param {Phaser.Types.Textures.TextureSource} source - The new source data.
+     */
+    updateSource: function (source)
+    {
+        // Tidy up unused pool canvases.
+        if (this.isCanvas && source !== this.image && !(source instanceof HTMLCanvasElement))
+        {
+            CanvasPool.remove(this.image);
+        }
+
+        this.source = source;
+        this.image = (source.compressed) ? null : source;
+        this.compressionAlgorithm = (source.compressed) ? source.format : null;
+        this.width = source.naturalWidth || source.videoWidth || source.width || 0;
+        this.height = source.naturalHeight || source.videoHeight || source.height || 0;
+        this.isPowerOf2 = IsSizePowerOfTwo(this.width, this.height);
+        this.isCanvas = (source instanceof HTMLCanvasElement);
+        this.isVideo = (window.hasOwnProperty('HTMLVideoElement') && source instanceof HTMLVideoElement);
+        this.isRenderTexture = (source.type === 'RenderTexture' || source.type === 'DynamicTexture');
+        this.isGLTexture = source instanceof WebGLTextureWrapper;
+        this.update();
     },
 
     /**

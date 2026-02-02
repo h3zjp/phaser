@@ -16,6 +16,7 @@ var Frame = require('./Frame');
 var GameEvents = require('../core/events');
 var GetValue = require('../utils/object/GetValue');
 var ImageGameObject = require('../gameobjects/image/Image');
+var IntegerToColor = require('../display/color/IntegerToColor');
 var IsPlainObject = require('../utils/object/IsPlainObject');
 var Parser = require('./parsers');
 var Rectangle = require('../geom/rectangle/Rectangle');
@@ -209,7 +210,7 @@ var TextureManager = new Class({
         {
             this.addBase64('__MISSING', config.missingImage);
         }
-        
+
         if (config.whiteImage !== null)
         {
             this.addBase64('__WHITE', config.whiteImage);
@@ -1179,13 +1180,66 @@ var TextureManager = new Class({
     },
 
     /**
+     * Creates a texture from a color and alpha.
+     * The texture will be filled with the given color and alpha.
+     *
+     * This may be used as a proxy texture,
+     * which can later be replaced with a real texture.
+     * See {@link Phaser.Textures.Texture#setSource}
+     * for more information on replacing the proxy with a real texture.
+     *
+     * This is only available in WebGL mode.
+     *
+     * @method Phaser.Textures.TextureManager#addFlatColor
+     * @fires Phaser.Textures.Events#ADD
+     * @since 4.0.0
+     * @webglonly
+     *
+     * @param {string} key - The unique string-based key of the Texture.
+     * @param {number} width - The width of the texture.
+     * @param {number} height - The height of the texture.
+     * @param {number} [color=0x000000] - The color of the texture.
+     * @param {number} [alpha=0] - The alpha of the texture.
+     * @returns {?Phaser.Textures.Texture} The Texture that was created, or `null` if the key is already in use or the width or height is not positive.
+     */
+    addFlatColor: function (key, width, height, color, alpha)
+    {
+        if (
+            !this.checkKey(key) ||
+            width <= 0 ||
+            height <= 0
+        )
+        {
+            return null;
+        }
+
+        if (color === undefined) { color = 0x000000; }
+        if (alpha === undefined) { alpha = 0; }
+
+        var col = IntegerToColor(color);
+        var r = col.red;
+        var g = col.green;
+        var b = col.blue;
+        var data = new Uint8Array(width * height * 4);
+        for (var i = 0; i < width * height; i++)
+        {
+            data[i * 4] = r;
+            data[i * 4 + 1] = g;
+            data[i * 4 + 2] = b;
+            data[i * 4 + 3] = alpha * 255;
+        }
+
+        return this.addUint8Array(key, data, width, height);
+    },
+
+    /**
      * Creates a new Texture using the given source and dimensions.
      *
      * @method Phaser.Textures.TextureManager#create
      * @since 3.0.0
      *
      * @param {string} key - The unique string-based key of the Texture.
-     * @param {(HTMLImageElement|HTMLCanvasElement|HTMLImageElement[]|HTMLCanvasElement[]|Phaser.Renderer.WebGL.Wrappers.WebGLTextureWrapper)} source - An array of sources that are used to create the texture. Usually Images, but can also be a Canvas.
+     * @param {Phaser.Types.Textures.TextureSource | Phaser.Types.Textures.TextureSource[]} source - A source or array of sources that are used to create the texture. Usually Images, but can also be a Canvas or other types.
      * @param {number} [width] - The width of the Texture. This is optional and automatically derived from the source images.
      * @param {number} [height] - The height of the Texture. This is optional and automatically derived from the source images.
      *

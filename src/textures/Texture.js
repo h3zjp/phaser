@@ -487,28 +487,98 @@ var Texture = new Class({
     },
 
     /**
+     * Set the source data for this Texture.
+     * By default, this will update any existing sources,
+     * effectively overwriting them.
+     *
+     * It's advisable to only swap between textures of the same size,
+     * as the dimensions of game objects are often derived from texture size
+     * and might change in unexpected ways if they don't match.
+     *
+     * Any related `dataSource` members must be updated.
+     * See {@link Phaser.Textures.Texture#setDataSource}.
+     *
+     * @method Phaser.Textures.Texture#setSource
+     * @since 4.0.0
+     *
+     * @param {Phaser.Types.Textures.TextureSource | Phaser.Types.Textures.TextureSource[]} data - The source image data.
+     * @param {number} [startIndex=0] - The index of the first source to update. If there are multiple data elements, they will be applied to subsequent indices.
+     * @param {boolean} [renew=false] - Whether to destroy the existing source and create a new one, if a source is already in the array at an index.
+     * @param {number} [width] - Width to use, if not available from the data (e.g. using a Uint8Array)
+     * @param {number} [height] - Height to use, if not available from the data (e.g. using a Uint8Array)
+     */
+    setSource: function (data, startIndex, renew, width, height)
+    {
+        if (startIndex === undefined) { startIndex = 0; }
+        if (renew === undefined) { renew = false; }
+        if (!Array.isArray(data))
+        {
+            data = [ data ];
+        }
+        for (var i = 0; i < data.length; i++)
+        {
+            var index = i + startIndex;
+            var datum = data[i];
+            var source = this.source[index];
+            var w = datum.naturalWidth || datum.videoWidth || datum.width || source.width || width || 0;
+            var h = datum.naturalHeight || datum.videoHeight || datum.height || source.height || height || 0;
+
+            if (source)
+            {
+                if (!renew)
+                {
+                    source.updateSource(datum);
+                    continue;
+                }
+                source.destroy();
+            }
+            this.source[index] = new TextureSource(this, datum, w, h);
+        }
+    },
+
+    /**
      * Adds a data source image to this Texture.
      *
      * An example of a data source image would be a normal map, where all of the Frames for this Texture
      * equally apply to the normal map.
      *
-     * @method Phaser.Textures.Texture#setDataSource
-     * @since 3.0.0
+     * There can only be one data source per 'regular' source entry.
      *
-     * @param {(HTMLImageElement|HTMLCanvasElement|HTMLImageElement[]|HTMLCanvasElement[])} data - The source image.
+     * @method Phaser.Textures.Texture#setDataSource
+     * @since 4.0.0
+     *
+     * @param {Phaser.Types.Textures.TextureSource | Phaser.Types.Textures.TextureSource[]} data - The source image data.
+     * @param {number} [startIndex=0] - The index of the first source to update. If there are multiple data elements, they will be applied to subsequent indices.
+     * @param {boolean} [renew=false] - Whether to destroy the existing source and create a new one, if a source is already in the array at an index.
+     * @param {number} [width] - Width to use, if not available from the data (e.g. using a Uint8Array)
+     * @param {number} [height] - Height to use, if not available from the data (e.g. using a Uint8Array)
      */
-    setDataSource: function (data)
+    setDataSource: function (data, startIndex, renew, width, height)
     {
+        if (startIndex === undefined) { startIndex = 0; }
+        if (renew === undefined) { renew = false; }
         if (!Array.isArray(data))
         {
             data = [ data ];
         }
-
         for (var i = 0; i < data.length; i++)
         {
-            var source = this.source[i];
+            var index = i + startIndex;
+            var datum = data[i];
+            var source = this.dataSource[index];
+            var w = datum.naturalWidth || datum.videoWidth || datum.width || source.width || width || 0;
+            var h = datum.naturalHeight || datum.videoHeight || datum.height || source.height || height || 0;
 
-            this.dataSource.push(new TextureSource(this, data[i], source.width, source.height));
+            if (source)
+            {
+                if (!renew)
+                {
+                    source.updateSource(datum);
+                    continue;
+                }
+                source.destroy();
+            }
+            this.dataSource[index] = new TextureSource(this, datum, w, h);
         }
     },
 
