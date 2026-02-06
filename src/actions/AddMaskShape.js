@@ -4,13 +4,14 @@
  * @license      {@link https://opensource.org/licenses/MIT|MIT License}
  */
 
+var GameObject = require('../gameobjects/GameObject');
 var Rectangle = require('../geom/rectangle');
 var FitToRegion = require('./FitToRegion');
 
 /**
- * Apply a Mask to a GameObject using a Shape.
+ * Apply a Mask to a GameObject or Camera using a Shape.
  *
- * This is a quick way to add a mask to an object.
+ * This is a quick way to add a mask to an object/camera.
  * It creates a Shape and uses FitToRegion to size it correctly.
  *
  * By default, the Mask is a circle, scaled to fit both X and Y axes
@@ -45,7 +46,7 @@ var FitToRegion = require('./FitToRegion');
  * @function Phaser.Actions.AddMaskShape
  * @since 4.0.0
  *
- * @param {Phaser.GameObjects.GameObject} target - The GameObject to which to apply a mask.
+ * @param {Phaser.GameObjects.GameObject | Phaser.Cameras.Scene2D.Camera} target - The GameObject or Camera to which to apply a mask.
  * @param {Phaser.Types.Actions.AddMaskShapeConfig} config - The configuration of the mask shape.
  *
  * @returns {Phaser.Filters.Mask} The new Mask filter.
@@ -130,7 +131,10 @@ var AddMaskShape = function (target, config)
     }
 
     // Apply mask.
-    target.enableFilters();
+    if (target instanceof GameObject)
+    {
+        target.enableFilters();
+    }
     var filterList = config.useInternal ? target.filters.internal : target.filters.external;
     var mask = filterList.addMask(shape, config.invert);
 
