@@ -14,6 +14,7 @@ module.exports = {
     AlignTo: require('./AlignTo'),
     Angle: require('./Angle'),
     Call: require('./Call'),
+    FitToRegion: require('./FitToRegion'),
     GetFirst: require('./GetFirst'),
     GetLast: require('./GetLast'),
     GridAlign: require('./GridAlign'),
