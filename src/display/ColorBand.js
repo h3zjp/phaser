@@ -243,10 +243,13 @@ var ColorBand = new Class({
                 // CURVED
                 if ((index *= 2) < 1)
                 {
-                    return 0.5 * Math.sqrt(1 - (--index * index));
+                    index = 0.5 * Math.sqrt(1 - (--index * index));
                 }
-                index = 1 - index;
-                index = 1 - 0.5 * Math.sqrt(1 - index * index);
+                else
+                {
+                    index = 1 - index;
+                    index = 1 - 0.5 * Math.sqrt(1 - index * index);
+                }
                 break;
             }
             case 2:
