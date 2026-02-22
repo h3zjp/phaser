@@ -689,7 +689,7 @@ var TimeStep = new Class({
         {
             this.callback(time, this.delta);
 
-            this.delta = 0;
+            this.delta = (this.delta - this._limitRate) % this._limitRate;
         }
 
         //  Shift time value over
