@@ -101,7 +101,7 @@ var PanoramaBlur = new Class({
         this.samplesY = config.samplesY || 16;
 
         /**
-         * An exponent applied to samples. Power above 1 increases darkness, allowing brighter colors to dominate. Power below 1 increases brightness, reducing the influence of brighter colors. To simulate an HDR environment with bright sunlight that cannot be represented in sRGB color, use low power.
+         * An exponent applied to samples. Power above 1 increases darkness, allowing brighter colors to dominate. Power below 1 increases brightness, reducing the influence of brighter colors. To simulate an HDR environment with bright sunlight that cannot be represented in sRGB color, use high power.
          *
          * @name Phaser.Filters.PanoramaBlur#power
          * @type {number}
