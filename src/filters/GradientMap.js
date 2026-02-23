@@ -129,6 +129,16 @@ var GradientMap = new Class({
          * @default true
          */
         this.unpremultiply = config.unpremultiply === undefined ? true : config.unpremultiply;
+
+        /**
+         * How much of the effect to blend over the original.
+         *
+         * @name Phaser.Filters.GradientMap#alpha
+         * @type {number}
+         * @since 4.0.0
+         * @default 1
+         */
+        this.alpha = config.alpha === undefined ? 1 : config.alpha;
     }
 });
 

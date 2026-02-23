@@ -59,6 +59,7 @@ var FilterGradientMap = new Class({
         programManager.setUniform('uUnpremultiply', controller.unpremultiply);
         programManager.setUniform('uColor', controller.color);
         programManager.setUniform('uColorFactor', controller.colorFactor);
+        programManager.setUniform('uAlpha', controller.alpha);
     },
 
     updateShaderConfig: function (controller, _drawingContext)

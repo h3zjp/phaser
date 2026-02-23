@@ -9,6 +9,7 @@ uniform sampler2D uMainSampler;
 uniform vec4 uColor;
 uniform vec4 uColorFactor;
 uniform bool uUnpremultiply;
+uniform float uAlpha;
 
 varying vec2 outTexCoord;
 
@@ -30,5 +31,5 @@ void main ()
 
     rampColor.rgb *= rampColor.a;
 
-    gl_FragColor = rampColor * sample.a;
+    gl_FragColor = mix(sample, rampColor * sample.a, uAlpha);
 }

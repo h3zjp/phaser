@@ -6,6 +6,7 @@ module.exports = [
     'uniform vec4 uColor;',
     'uniform vec4 uColorFactor;',
     'uniform bool uUnpremultiply;',
+    'uniform float uAlpha;',
     'varying vec2 outTexCoord;',
     'void main ()',
     '{',
@@ -18,6 +19,6 @@ module.exports = [
     '    float progress = modulatedSample.r + modulatedSample.g + modulatedSample.b + modulatedSample.a;',
     '    vec4 rampColor = getRampAt(progress);',
     '    rampColor.rgb *= rampColor.a;',
-    '    gl_FragColor = rampColor * sample.a;',
+    '    gl_FragColor = mix(sample, rampColor * sample.a, uAlpha);',
     '}',
 ].join('\n');

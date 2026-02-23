@@ -68,7 +68,7 @@
 
 ## Fixes
 
-- Fix `TimeStep#stepLimitFPS` to drop fewer frames, running much more smoothly at the target frame rate.
+- Fix `TimeStep#stepLimitFPS` to drop fewer frames, running much more smoothly at the target frame rate. Thanks to @Flow and @Antriel for discussing the topic.
   - Documentation in `FPSConfig#limit` now clarifies that frame limits are only necessary when artificially slowing the game below the display refresh rate.
 - Fix `SpriteGPULayer` creation time handling getting confused by 0.
 - Fix blend modes leaking onto siblings within a `Container`. Thanks to @saintflow47, @tickle-monster and @leemanhopeter for reporting this.
