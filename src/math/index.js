@@ -44,6 +44,7 @@ var PhaserMath = {
     GetVec2Bounds: require('./GetVec2Bounds'),
     Hash: require('./Hash'),
     HashCell: require('./HashCell'),
+    HashSimplex: require('./HashSimplex'),
     IsEven: require('./IsEven'),
     IsEvenStrict: require('./IsEvenStrict'),
     Linear: require('./Linear'),
