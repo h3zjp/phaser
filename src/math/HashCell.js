@@ -98,16 +98,16 @@ var worley = function (vector, config, scale)
     for (index = 0; index < neighbors; index++)
     {
         // Generate neighbourhood in range -1,1 on relevant axes.
-        neighbor[0] = index % axes - 1;
+        neighbor[0] = index % 3 - 1;
         if (axes > 1)
         {
-            neighbor[1] = Math.floor(index / 3) % axes - 1;
+            neighbor[1] = Math.floor(index / 3) % 3 - 1;
             if (axes > 2)
             {
-                neighbor[2] = Math.floor(index / 9) % axes - 1;
+                neighbor[2] = Math.floor(index / 9) % 3 - 1;
                 if (axes > 3)
                 {
-                    neighbor[3] = Math.floor(index / 27) % axes - 1;
+                    neighbor[3] = Math.floor(index / 27) % 3 - 1;
                 }
             }
         }
