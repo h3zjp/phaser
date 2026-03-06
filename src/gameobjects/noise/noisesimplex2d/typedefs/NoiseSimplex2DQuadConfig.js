@@ -22,4 +22,5 @@
  * @property {number} [noiseValueFactor=0.5] - How much to scale the noise value for output.
  * @property {number} [noiseValueAdd=0.5] - How much to add to the noise value for output.
  * @property {number} [noiseValuePower=1] - Exponent to apply to the noise value for output.
+ * @property {number[]} [noiseSeed=[ 1, 2 ]] - The hash seed. Each seed creates a different pattern.
  */

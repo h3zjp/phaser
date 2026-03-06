@@ -36,6 +36,7 @@ uniform float uNormalScale;
 uniform float uValueFactor;
 uniform float uValueAdd;
 uniform float uValuePower;
+uniform vec2 uSeed;
 
 varying vec2 outTexCoord;
 
@@ -70,6 +71,8 @@ float psrdnoise(vec2 x, vec2 period, float alpha)
     } else {
         iu = vec3(i0.x, i1.x, i2.x); iv = vec3(i0.y, i1.y, i2.y);
     }
+    // Custom: Seed the noise.
+    iu += uSeed.xxx; iv += uSeed.yyy;
     // 7. Compute the hash for each of the simplex corners.
     vec3 hash = mod(iu, 289.0);
     hash = mod((hash*51.0 + 2.0)*hash + iv, 289.0);

@@ -36,6 +36,7 @@ uniform float uNormalScale;
 uniform float uValueFactor;
 uniform float uValueAdd;
 uniform float uValuePower;
+uniform vec3 uSeed;
 
 varying vec2 outTexCoord;
 
@@ -83,6 +84,8 @@ float psrdnoise(vec3 x, vec3 period, float alpha) {
         i2 = floor(M * vec3(vx.z, vy.z, vz.z) + 0.5);
         i3 = floor(M * vec3(vx.w, vy.w, vz.w) + 0.5);
     }
+    // Custom: Seed the noise.
+    i0 += uSeed; i1 += uSeed; i2 += uSeed; i3 += uSeed;
     // 7. Compute hash for each of the four corners.
     vec4 hash = permute(permute(permute(vec4(i0.z, i1.z, i2.z, i3.z)) + vec4(i0.y, i1.y, i2.y, i3.y)) + vec4(i0.x, i1.x, i2.x, i3.x));
     // 8. Compute rotating gradients using the "well-behaved" method.

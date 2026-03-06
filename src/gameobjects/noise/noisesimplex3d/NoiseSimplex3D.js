@@ -35,6 +35,10 @@ var NoiseSimplex3DFrag = require('../../../renderer/webgl/shaders/NoiseSimplex3D
  * You can add fine detail with `noiseIterations`.
  * You can add turbulence with `noiseWarpAmount`.
  *
+ * You can change the basic pattern with `noiseSeed`.
+ * Different seeds create completely different patterns.
+ * You must use integers for the seed, or bad things will happen.
+ *
  * You can set `noiseNormalMap` to output a normal map.
  * This is a quick way to add texture for lighting.
  *
@@ -408,6 +412,23 @@ var NoiseSimplex3D = new Class({
         {
             this.setNoiseColor(config.noiseColorStart, config.noiseColorEnd);
         }
+
+        /**
+         * The seed for the noise.
+         *
+         * This offsets the simplex grid, causing its hashes to evaluate
+         * differently. Any change to the seed results in a new pattern.
+         * It must be an array of 3 integers.
+         *
+         * Use a custom seed to create different, but reproducible,
+         * randomness.
+         *
+         * @name Phaser.GameObjects.NoiseSimplex2D#noiseSeed
+         * @type {number[]}
+         * @default [ 1, 2, 3 ]
+         * @since 4.0.0
+         */
+        this.noiseSeed = config.noiseSeed || [ 1, 2, 3 ];
     },
 
     /**
@@ -459,6 +480,7 @@ var NoiseSimplex3D = new Class({
         setUniform('uValuePower', this.noiseValuePower);
         setUniform('uColorStart', this.noiseColorStart.gl);
         setUniform('uColorEnd', this.noiseColorEnd.gl);
+        setUniform('uSeed', this.noiseSeed);
     },
 
     /**
