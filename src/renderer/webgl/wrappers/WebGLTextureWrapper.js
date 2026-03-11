@@ -258,6 +258,9 @@ var WebGLTextureWrapper = new Class({
      * Resizes the WebGLTexture to the new dimensions.
      * This will destroy the contents of the texture.
      *
+     * Wrap mode will be updated: REPEAT if the new size is power-of-two,
+     * CLAMP_TO_EDGE if not.
+     *
      * @method Phaser.Renderer.WebGL.Wrappers.WebGLTextureWrapper#resize
      * @since 4.0.0
      * @param {number} width - The new width of the WebGLTexture.
@@ -272,6 +275,18 @@ var WebGLTextureWrapper = new Class({
 
         this.width = width;
         this.height = height;
+
+        var gl = this.renderer.gl;
+        if (IsSizePowerOfTwo(width, height))
+        {
+            this.wrapS = gl.REPEAT;
+            this.wrapT = gl.REPEAT;
+        }
+        else
+        {
+            this.wrapS = gl.CLAMP_TO_EDGE;
+            this.wrapT = gl.CLAMP_TO_EDGE;
+        }
 
         this._processTexture();
     },

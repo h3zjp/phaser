@@ -252,8 +252,7 @@ var DynamicTexture = new Class({
 
             this.camera.setSize(width, height);
 
-            source.width = width;
-            source.height = height;
+            source.updateSize(width, height);
 
             frame.setSize(width, height);
 
