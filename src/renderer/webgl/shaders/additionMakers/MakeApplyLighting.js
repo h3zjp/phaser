@@ -11,7 +11,7 @@ var ApplyLighting = require('../ApplyLighting-glsl');
  *
  * The `rotation` variable must be available in the vertex renderer.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeApplyLighting
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeApplyLighting
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.

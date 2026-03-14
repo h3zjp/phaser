@@ -10,7 +10,7 @@ var DefineLights = require('../DefineLights-glsl');
  * Return a ShaderAdditionConfig for defining the lights and core lighting
  * algorithm in the fragment shader.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeDefineLights
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeDefineLights
  * @since 4.0.0
  *
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.

@@ -10,7 +10,7 @@ var GetNormalFromMap = require('../GetNormalFromMap-glsl');
  * Return a ShaderAdditionConfig for creating an outInverseRotationMatrix
  * in the vertex shader, which is used to apply lighting to a texture.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeGetNormalFromMap
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeGetNormalFromMap
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.

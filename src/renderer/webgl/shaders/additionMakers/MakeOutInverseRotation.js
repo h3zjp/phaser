@@ -12,7 +12,7 @@ var OutInverseRotation = require('../OutInverseRotation-glsl');
  *
  * The `rotation` variable must be available in the vertex renderer.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeOutInverseRotation
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeOutInverseRotation
  * @since 4.0.0
  *
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.

@@ -9,7 +9,7 @@
  * in the context of a TilemapGPULayer shader.
  * This shader uses a `Samples` object to collate texture samples.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeSampleNormal
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeSampleNormal
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  */

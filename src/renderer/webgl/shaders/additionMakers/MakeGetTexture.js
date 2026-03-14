@@ -6,6 +6,16 @@
 
 var GetTexture = require('../GetTexture-glsl');
 
+/**
+ * Returns a ShaderAdditionConfig for multi-texture sampling.
+ * This constructs an if...else structure to the available number of
+ * texture units.
+ *
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeGetTexture
+ * @since 4.0.0
+ * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
+ * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.
+ */
 var MakeGetTexture = function (maxTextures, disable)
 {
     if (maxTextures === undefined) { maxTextures = 1; }

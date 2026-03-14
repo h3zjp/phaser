@@ -8,7 +8,7 @@
  * Return a ShaderAdditionConfig for deriving rotation from `inTexDatum`.
  * This is useful for shaders that need to know their orientation.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeRotationDatum
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeRotationDatum
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.

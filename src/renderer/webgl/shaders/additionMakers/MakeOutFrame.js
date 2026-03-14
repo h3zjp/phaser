@@ -7,7 +7,7 @@
 /**
  * Returns a ShaderAdditionConfig for providing the vertex shader with the `inFrame` attribute.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeOutFrame
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeOutFrame
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.

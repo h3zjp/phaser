@@ -8,7 +8,7 @@
  * Return a ShaderAdditionConfig for defining a flat normal.
  * This is used to light objects without a normal map.
  *
- * @function Phaser.Renderer.WebGL.Shaders.MakeFlatNormal
+ * @function Phaser.Renderer.WebGL.ShaderAdditionMakers.MakeFlatNormal
  * @since 4.0.0
  * @param {boolean} [disable=false] - Whether to disable the shader addition on creation.
  * @returns {Phaser.Types.Renderer.WebGL.ShaderAdditionConfig} The shader addition configuration.
