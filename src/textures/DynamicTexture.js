@@ -57,8 +57,8 @@ var TransformMatrix = require('../gameobjects/components/TransformMatrix');
  *
  * @param {Phaser.Textures.TextureManager} manager - A reference to the Texture Manager this Texture belongs to.
  * @param {string} key - The unique string-based key of this Texture.
- * @param {number} [width=256] - The width of this Dymamic Texture in pixels. Defaults to 256 x 256.
- * @param {number} [height=256] - The height of this Dymamic Texture in pixels. Defaults to 256 x 256.
+ * @param {number} [width=256] - The width of this Dynamic Texture in pixels. Defaults to 256 x 256.
+ * @param {number} [height=256] - The height of this Dynamic Texture in pixels. Defaults to 256 x 256.
  * @param {boolean} [forceEven=true] - Force the given width and height to be rounded to even values. This significantly improves the rendering quality. Set to false if you know you need an odd sized texture.
  */
 var DynamicTexture = new Class({
