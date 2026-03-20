@@ -64,7 +64,7 @@ module.exports = {
     CENTER_HORIZONTALLY: 2,
 
     /**
-     * The game canvas is centered both vertically within the parent.
+     * The game canvas is centered vertically within the parent.
      * To do this, the parent has to have a bounds that can be calculated and not be empty.
      *
      * Centering is achieved by setting the margin left and top properties of the
