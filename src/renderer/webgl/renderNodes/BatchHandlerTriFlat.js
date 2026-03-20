@@ -57,7 +57,7 @@ var BatchHandlerTriFlat = new Class({
         /**
          * A persistent calculation vector used when processing the lights.
          *
-         * @name Phaser.Renderer.WebGL.RenderNodes.BatchHandlerTriFlatLight#_lightVector
+         * @name Phaser.Renderer.WebGL.RenderNodes.BatchHandlerTriFlat#_lightVector
          * @type {Phaser.Math.Vector2}
          * @private
          * @since 4.0.0
