@@ -38,7 +38,7 @@ function isDifferent (a, b)
  *
  * @param {Phaser.Renderer.WebGL.WebGLRenderer} renderer - The WebGLRenderer instance that owns this wrapper.
  * @param {string} vertexSource - The vertex shader source code as a string.
- * @param {string} fragmentShader - The fragment shader source code as a string.
+ * @param {string} fragmentSource - The fragment shader source code as a string.
  */
 var WebGLProgramWrapper = new Class({
 
