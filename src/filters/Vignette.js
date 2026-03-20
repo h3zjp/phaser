@@ -29,7 +29,7 @@ var Color = require('../display/color/Color');
  * const camera = this.cameras.main;
  *
  * camera.filters.internal.addVignette();
- * camera.filters.exnternal.addVignette();
+ * camera.filters.external.addVignette();
  * ```
  *
  * @class Vignette
