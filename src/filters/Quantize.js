@@ -45,7 +45,7 @@ var Controller = require('./Controller');
  * @since 4.0.0
  * @extends Phaser.Filters.Controller
  * @param {Phaser.Cameras.Scene2D.Camera} camera - The camera that owns this filter.
- * @param {Phaser.Types.Filters.QuantizeConfig} [config] - The configuration object for the GradientMap effect.
+ * @param {Phaser.Types.Filters.QuantizeConfig} [config] - The configuration object for the Quantize effect.
  */
 var Quantize = new Class({
     Extends: Controller,
