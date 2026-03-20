@@ -116,7 +116,7 @@ var Triangle = new Class({
     },
 
     /**
-     * Checks whether a given points lies within the triangle.
+     * Checks whether a given point lies within the triangle.
      *
      * @method Phaser.Geom.Triangle#contains
      * @since 3.0.0
@@ -132,7 +132,7 @@ var Triangle = new Class({
     },
 
     /**
-     * Returns a specific point  on the triangle.
+     * Returns a specific point on the triangle.
      *
      * @method Phaser.Geom.Triangle#getPoint
      * @since 3.0.0
@@ -142,7 +142,7 @@ var Triangle = new Class({
      * @param {number} position - Position as float within `0` and `1`. `0` equals the first point.
      * @param {Phaser.Math.Vector2} [output] - Optional Vector2 point that the calculated point will be written to.
      *
-     * @return {Phaser.Math.Vector2} Calculated Vetor2 that represents the requested position. It is the same as `output` when this parameter has been given.
+     * @return {Phaser.Math.Vector2} Calculated Vector2 that represents the requested position. It is the same as `output` when this parameter has been given.
      */
     getPoint: function (position, output)
     {
