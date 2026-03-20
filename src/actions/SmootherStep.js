@@ -20,7 +20,7 @@ var MathSmootherStep = require('../math/SmootherStep');
  * @param {string} property - The property of the Game Object to interpolate.
  * @param {number} min - The minimum interpolation value.
  * @param {number} max - The maximum interpolation value.
- * @param {boolean} [inc=false] - Should the values be incremented? `true` or set (`false`)
+ * @param {boolean} [inc=false] - If `true`, the values are incremented. If `false` (default), the values are set.
  *
  * @return {(array|Phaser.GameObjects.GameObject[])} The array of Game Objects that was passed to this Action.
  */
