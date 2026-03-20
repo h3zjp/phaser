@@ -31,7 +31,7 @@ var RotateMatrix = require('./RotateMatrix');
  *
  * @param {T[][]} [matrix] - The array to rotate.
  *
- * @return {T[][]} The rotated matrix array. The source matrix should be discard for the returned matrix.
+ * @return {T[][]} The rotated matrix array. The source matrix should be discarded for the returned matrix.
  */
 var Rotate180 = function (matrix)
 {
