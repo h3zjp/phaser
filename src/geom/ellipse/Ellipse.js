@@ -111,7 +111,7 @@ var Ellipse = new Class({
     /**
      * Returns a Point object containing the coordinates of a point on the circumference of the Ellipse
      * based on the given angle normalized to the range 0 to 1. I.e. a value of 0.5 will give the point
-     * at 180 degrees around the circle.
+     * at 180 degrees around the ellipse.
      *
      * @method Phaser.Geom.Ellipse#getPoint
      * @since 3.0.0
@@ -119,7 +119,7 @@ var Ellipse = new Class({
      * @generic {Phaser.Math.Vector2} O - [out,$return]
      *
      * @param {number} position - A value between 0 and 1, where 0 equals 0 degrees, 0.5 equals 180 degrees and 1 equals 360 around the ellipse.
-     * @param {Phaser.Math.Vector2} [out] - A Vector2 to store the return values in. If not given a Vector2 object will be created.
+     * @param {Phaser.Math.Vector2} [point] - A Vector2 to store the return values in. If not given a Vector2 object will be created.
      *
      * @return {Phaser.Math.Vector2} A Vector2 instance containing the coordinates of the point around the ellipse.
      */
