@@ -13,7 +13,7 @@ var NoiseSimplex2DFrag = require('../../../renderer/webgl/shaders/NoiseSimplex2D
  * @classdesc
  * A NoiseSimplex2D object.
  *
- * This game object is a quad which displays cellular noise.
+ * This game object is a quad which displays simplex noise.
  * You can manipulate this object like any other, make it interactive,
  * and use it in filters and masks to create visually stunning effects.
  *
@@ -176,7 +176,7 @@ var NoiseSimplex2D = new Class({
          * This runs several octaves of noise to generate a random warp offset.
          * It adds to the expense of the shader.
          *
-         * @name Phaser.GameObjects.NoiseSimplex2D#noiseFlowPower
+         * @name Phaser.GameObjects.NoiseSimplex2D#noiseWarpAmount
          * @type {number}
          * @default 0
          * @since 4.0.0
@@ -254,7 +254,7 @@ var NoiseSimplex2D = new Class({
          * Lower values decay slower, prioritize high frequency detail.
          * Higher values decay faster, prioritize low frequency detail.
          *
-         * @name Phaser.GameObjects.NoiseSimplex2D#noiseFlowPower
+         * @name Phaser.GameObjects.NoiseSimplex2D#noiseContributionPower
          * @type {number}
          * @default 2
          * @since 4.0.0
@@ -302,7 +302,7 @@ var NoiseSimplex2D = new Class({
          * Lower values decay slower, prioritize high frequency detail.
          * Higher values decay faster, prioritize low frequency detail.
          *
-         * @name Phaser.GameObjects.NoiseSimplex2D#noiseFlowPower
+         * @name Phaser.GameObjects.NoiseSimplex2D#noiseWarpContributionPower
          * @type {number}
          * @default 2
          * @since 4.0.0
