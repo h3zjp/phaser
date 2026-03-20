@@ -52,7 +52,7 @@ if (typeof FEATURE_SOUND)
  * @fires Phaser.Core.Events#VISIBLE
  * @since 3.0.0
  *
- * @param {Phaser.Types.Core.GameConfig} [GameConfig] - The configuration object for your Phaser Game instance.
+ * @param {Phaser.Types.Core.GameConfig} [config] - The configuration object for your Phaser Game instance.
  */
 var Game = new Class({
 
