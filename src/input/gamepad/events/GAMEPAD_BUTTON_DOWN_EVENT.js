@@ -9,7 +9,7 @@
  *
  * This event is dispatched by a Gamepad instance when a button has been pressed on it.
  *
- * Listen to this event from a Gamepad instance. Once way to get this is from the `pad1`, `pad2`, etc properties on the Gamepad Plugin:
+ * Listen to this event from a Gamepad instance. One way to get this is from the `pad1`, `pad2`, etc properties on the Gamepad Plugin:
  * `this.input.gamepad.pad1.on('down', listener)`.
  *
  * Note that you will not receive any Gamepad button events until the browser considers the Gamepad as being 'connected'.
