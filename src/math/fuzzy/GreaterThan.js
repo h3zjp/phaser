@@ -16,7 +16,7 @@
  * @param {number} b - The second value.
  * @param {number} [epsilon=0.0001] - The epsilon.
  *
- * @return {boolean} `true` if `a` is fuzzily greater than than `b`, otherwise `false`.
+ * @return {boolean} `true` if `a` is fuzzily greater than `b`, otherwise `false`.
  */
 var GreaterThan = function (a, b, epsilon)
 {
