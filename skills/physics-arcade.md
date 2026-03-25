@@ -303,7 +303,7 @@ enemies.setCollisionCategory(CAT_ENEMY);
 enemies.setCollidesWith([CAT_PLAYER, CAT_BULLET]);
 ```
 
-Default: all bodies have category `0x0001` and collisionMask `2147483647` (all bits set), so everything collides with everything.
+Default: all bodies have category `0x0001` and collisionMask `1`. Everything still collides with everything because `(1 & 1) !== 0`. PhysicsGroup defaults to mask `2147483647` (all bits). Call `resetCollisionCategory()` to set the mask to all bits after changing categories.
 
 ## Configuration Reference
 
@@ -428,7 +428,7 @@ Also: `accelerateToObject`, `moveToObject`, `collideTiles`, `overlapTiles`, `ena
 
 5. **Events require opt-in** -- World events (`'collide'`, `'overlap'`, `'worldbounds'`) only fire if the relevant body property (`onCollide`, `onOverlap`, `onWorldBounds`) is set to `true`.
 
-6. **Collision categories default** -- By default all bodies have category `0x0001` and mask `2147483647`. Call `this.physics.nextCategory()` to get new category values; max 32 categories total.
+6. **Collision categories default** -- By default all bodies have category `0x0001` and mask `1` (PhysicsGroup defaults to mask `2147483647`). Call `this.physics.nextCategory()` to get new category values; max 32 categories total. After changing categories, use `resetCollisionCategory()` to set the mask to all bits.
 
 7. **Group defaults only apply at creation** -- PhysicsGroup `defaults` (like `velocityX`, `bounceY`) are applied when a member is added/created. Changing `defaults` later does not retroactively update existing members.
 
