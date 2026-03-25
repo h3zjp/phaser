@@ -727,7 +727,7 @@ var Timeline = new Class({
             }
         }
 
-        events = [];
+        events.length = 0;
 
         this.elapsed = 0;
         this.paused = true;

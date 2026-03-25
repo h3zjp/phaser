@@ -633,7 +633,7 @@ var Tileset = new Class({
 
         if (totalTuples > 4096 * 4096 / 2)
         {
-            throw new Error('Tileset.animationDataTexture: too many animations - total number of animations plus animation frames is max 8388608, got ' + (totalTuples));
+            throw new Error('Tileset._animationDataTexture: too many animations - total number of animations plus animation frames is max 8388608, got ' + (totalTuples));
         }
 
         var size = totalTuples * 2;
@@ -667,9 +667,9 @@ var Tileset = new Class({
         }
 
         // Create or update the animation data texture.
-        if (this.animationDataTexture)
+        if (this._animationDataTexture)
         {
-            this.animationDataTexture.destroy();
+            this._animationDataTexture.destroy();
         }
 
         var u8 = new Uint8Array(u32.buffer);

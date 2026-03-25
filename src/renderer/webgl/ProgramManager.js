@@ -208,7 +208,7 @@ var ProgramManager = new Class({
      */
     clearUniforms: function ()
     {
-        this.uniforms.length = 0;
+        this.uniforms = {};
     },
 
     /**

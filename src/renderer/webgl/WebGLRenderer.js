@@ -959,7 +959,7 @@ var WebGLRenderer = new Class({
         }
         if (this.previousContextRestoredHandler)
         {
-            this.canvas.removeEventListener('webglcontextlost', this.previousContextRestoredHandler, false);
+            this.canvas.removeEventListener('webglcontextrestored', this.previousContextRestoredHandler, false);
         }
 
         if (typeof contextLost === 'function')
