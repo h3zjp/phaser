@@ -354,7 +354,7 @@ class BootScene extends Phaser.Scene {
             duration: 2000,
             ease: 'Linear',
             onUpdate: (tween: Phaser.Tweens.Tween) => {
-                let value: number = tween.getValue();
+                let value: number = tween.getValue() as number;
             }
         });
 
