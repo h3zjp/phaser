@@ -164,8 +164,8 @@ var ColorBand = new Class({
      *
      * @method Phaser.Display.ColorBand#setColors
      * @since 4.0.0
-     * @param {number | string | number[] | Color} [start=0x000000] - The color at the start of the band.
-     * @param {number | string | number[] | Color} [end] - The color at the end of the band. If not specified, equals `start`.
+     * @param {number | string | number[] | Phaser.Display.Color} [start=0x000000] - The color at the start of the band.
+     * @param {number | string | number[] | Phaser.Display.Color} [end] - The color at the end of the band. If not specified, equals `start`.
      * @return {this} This ColorBand.
      */
     setColors: function (start, end)

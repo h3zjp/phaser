@@ -567,13 +567,13 @@ var TweenManager = new Class({
      * @since 3.19.0
      *
      * @param {(number|number[])} value - The amount to stagger by, or an array containing two elements representing the min and max values to stagger between.
-     * @param {Phaser.Types.Tweens.StaggerConfig} config - The configuration object for the Stagger function.
+     * @param {Phaser.Types.Tweens.StaggerConfig} [config] - The configuration object for the Stagger function.
      *
      * @return {function} The stagger function.
      */
-    stagger: function (value, options)
+    stagger: function (value, config)
     {
-        return StaggerBuilder(value, options);
+        return StaggerBuilder(value, config);
     },
 
     /**

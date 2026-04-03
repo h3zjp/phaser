@@ -387,8 +387,8 @@ var NoiseCell3D = new Class({
      *
      * @method Phaser.GameObjects.NoiseCell3D#setNoiseColor
      * @since 4.0.0
-     * @param {number | string | number[] | Color} [start=0x000000] - The color in the middle of the cells.
-     * @param {number | string | number[] | Color} [end=0xffffff] - The color at the edge of the cells.
+     * @param {number | string | number[] | Phaser.Display.Color} [start=0x000000] - The color in the middle of the cells.
+     * @param {number | string | number[] | Phaser.Display.Color} [end=0xffffff] - The color at the edge of the cells.
      * @return {this} This game object.
      */
     setNoiseColor: function (start, end)

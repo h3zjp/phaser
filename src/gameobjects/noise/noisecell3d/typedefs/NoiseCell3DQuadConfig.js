@@ -11,7 +11,7 @@
  * @property {number} [noiseSmoothing=1] - How smooth to render in mode 2.
  * @property {boolean} [noiseNormalMap=false] - Whether to convert the noise to a normal map.
  * @property {number} [noiseNormalScale=1] - How much curvature to include in the normal map, if `noiseNormalMap` is enabled.
- * @property {number | string | number[] | Color} [noiseColorStart=0x000000] - The color at the middle of the cells.
- * @property {number | string | number[] | Color} [noiseColorEnd=0xffffff] - The color at the edge of the cells.
+ * @property {number | string | number[] | Phaser.Display.Color} [noiseColorStart=0x000000] - The color at the middle of the cells.
+ * @property {number | string | number[] | Phaser.Display.Color} [noiseColorEnd=0xffffff] - The color at the edge of the cells.
  * @property {number[]} [noiseSeed=[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]] - The seed which determines the cell pattern. A different seed creates an entirely different pattern.
  */

@@ -45,7 +45,7 @@ var MATH_CONST = require('../../math/const');
  * @since 3.19.0
  *
  * @param {(number|number[])} value - The amount to stagger by, or an array containing two elements representing the min and max values to stagger between.
- * @param {Phaser.Types.Tweens.StaggerConfig} [config] - A Stagger Configuration object.
+ * @param {Phaser.Types.Tweens.StaggerConfig} [options] - A Stagger Configuration object.
  *
  * @return {function} The stagger function.
  */

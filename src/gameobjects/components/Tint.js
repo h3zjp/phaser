@@ -80,7 +80,7 @@ var Tint = {
      * In Phaser 4 they are separate settings.
      *
      * @name Phaser.GameObjects.Components.Tint#tintMode
-     * @type {number}
+     * @type {Phaser.TintModes}
      * @default Phaser.TintModes.MULTIPLY
      * @since 4.0.0
      */
@@ -166,7 +166,7 @@ var Tint = {
      * @webglOnly
      * @since 4.0.0
      *
-     * @param {number} mode - The tint mode to use.
+     * @param {number | Phaser.TintModes} mode - The tint mode to use.
      * @return {this} This Game Object instance.
      */
     setTintMode: function (mode)

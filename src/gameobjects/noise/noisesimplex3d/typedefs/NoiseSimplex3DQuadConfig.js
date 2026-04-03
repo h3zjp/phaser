@@ -11,8 +11,8 @@
  * @property {number} [noiseWarpIterations=1] - How many octaves of noise to apply as turbulence, if `noiseWarpAmount` is greater than 0.
  * @property {boolean} [noiseNormalMap=false] - Whether to convert the noise to a normal map.
  * @property {number} [noiseNormalScale=1] - How much curvature to include in the normal map, if `noiseNormalMap` is enabled.
- * @property {number | string | number[] | Color} [noiseColorStart=0x000000] - The color at the middle of the cells.
- * @property {number | string | number[] | Color} [noiseColorEnd=0xffffff] - The color at the edge of the cells.
+ * @property {number | string | number[] | Phaser.Display.Color} [noiseColorStart=0x000000] - The color at the middle of the cells.
+ * @property {number | string | number[] | Phaser.Display.Color} [noiseColorEnd=0xffffff] - The color at the edge of the cells.
  * @property {number} [noiseDetailPower=2] - How much to increase detail per octave.
  * @property {number} [noiseFlowPower=2] - How much to increase flow per octave.
  * @property {number} [noiseContributionPower=2] - How much to shrink the contribution per octave.

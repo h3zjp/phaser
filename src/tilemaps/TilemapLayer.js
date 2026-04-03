@@ -405,7 +405,7 @@ var TilemapLayer = new Class({
      * @webglOnly
      * @since 4.0.0
      *
-     * @param {Phaser.TintMode} [tintMode=Phaser.TintModes.MULTIPLY] - The tint mode to use.
+     * @param {Phaser.TintModes} [tintMode=Phaser.TintModes.MULTIPLY] - The tint mode to use.
      * @param {number} [tileX] - The left most tile index (in tile coordinates) to use as the origin of the area to search.
      * @param {number} [tileY] - The top most tile index (in tile coordinates) to use as the origin of the area to search.
      * @param {number} [width] - How many tiles wide from the `tileX` index the area will be.
