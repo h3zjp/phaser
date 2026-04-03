@@ -16,37 +16,106 @@ Interested in learning more? Click the image below to watch our intro video.
 
 [![YouTube](http://i.ytimg.com/vi/jHTRu4iNTcA/maxresdefault.jpg)](https://www.youtube.com/watch?v=jHTRu4iNTcA)
 
-## Phaser 4 - Release Candidate 7
+---
 
-Phaser 4 draws ever closer to its official release with **RC7** - the most feature-rich release candidate yet. Originally planned for other projects, we adapted everything that made sense directly into Phaser. The result is a framework that's already more powerful and more reliable than Phaser 3 ever was.
+## Phaser 4
 
-### What's New in RC7
+Phaser 4 is a major release built on a brand-new WebGL renderer. The entire rendering pipeline from v3 has been replaced with a modern, node-based architecture that manages WebGL state properly, handles context loss gracefully, and is significantly faster. If you've built games with Phaser 3, the public API is mostly familiar -- but under the hood, everything has changed for the better.
 
-**Tint Overhaul** - Tint has been completely reworked. Color and mode are now separate concerns, with 6 tint modes available: MULTIPLY, FILL, ADD, SCREEN, OVERLAY, and HARD_LIGHT. The new `setTintMode()` method gives you explicit control, and FILL mode now works correctly with partially transparent pixels.
-
-**Return of the Lost FX** - Every FX that was cut during the Filters unification has been re-implemented. Bloom, Circle, Gradient, Shine, Vignette, and Wipe are all back - some as Filters, others finding better homes as Actions or Game Objects.
-
-**New Game Objects** - Several powerful new shader-based game objects:
-- **Gradient** - Highly configurable color gradients in linear, radial, conic, and bilinear shapes, powered by the new `ColorBand` and `ColorRamp` display classes.
-- **Noise, NoiseCell (2D/3D/4D), and NoiseSimplex (2D/3D)** - Generate and animate cellular noise, simplex noise, and random static, with support for normal map output. Great for naturalistic patterns, reflections, clouds, and procedural generation.
-
-**New Filters** - A whole suite of new filters including **ImageLight** for environment mapping and image-based lighting, **PanoramaBlur** for diffuse lighting textures, **CombineColorMatrix** for channel remixing, **GradientMap** for palette-swap effects, **Key** for chroma keying, **NormalTools** for normal map adjustment, and **Quantize** for retro dithered palette effects.
-
-**New Texture Management** - `TextureManager.addFlatColor()` creates proxy textures, and `Texture.setSource()` lets you hot-swap texture sources at runtime.
-
-**Plus** -- `NineSlice` tiling support (thanks @skhoroshavin!), `Actions.FitToRegion()` for quick scaling, `GameObject.isDestroyed` flag, HSV color interpolation, smoother FPS limiting, new deterministic noise functions in `Phaser.Math`, and numerous bug fixes from community feedback.
-
-Full details in the [RC7 Change Log](changelog/4.0/CHANGELOG-v4.0.0-rc.7.md) and the [full v4 Change Log](changelog/4.0/CHANGELOG-v4.0.0.md).
-
-Phaser 4 contains a brand-new and highly efficient WebGL renderer -- the entire renderer from v3 has been replaced. The public API has remained mostly, but not entirely, the same.
-
-## Installing Phaser 4 Beta from NPM
+### Getting Started
 
 Install via [npm](https://www.npmjs.com/package/phaser):
 
 ```bash
 npm install phaser@beta
 ```
+
+Or include via CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/phaser@beta/dist/phaser.min.js"></script>
+```
+
+Then create your first game:
+
+```js
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: {
+        create: function () {
+            this.add.text(400, 300, 'Hello Phaser 4!', { fontSize: '32px' }).setOrigin(0.5);
+        }
+    }
+};
+
+const game = new Phaser.Game(config);
+```
+
+### Why Phaser?
+
+- **Battle-tested** -- Over a decade of active development. Tens of thousands of games shipped. A huge community of developers who've seen it all.
+- **Truly cross-platform** -- One codebase runs on desktop browsers, mobile browsers, and can be wrapped for native app stores, Steam, YouTube Playables, Discord Activities, and more.
+- **Developer-friendly API** -- Scene-based architecture, a comprehensive loader, built-in physics (Arcade and Matter.js), animation system, input handling, cameras, tilemaps, particles, tweens, and much more -- all with clear, consistent APIs.
+- **Framework agnostic** -- Works with React, Vue, Angular, Svelte, or plain JavaScript and TypeScript. Use whatever tools you prefer.
+- **Massive ecosystem** -- Over 2,000 code examples. Extensive API documentation. Active Discord and forums. First-class TypeScript definitions.
+- **AI-ready** -- Phaser's API is well understood by every major frontier LLM, making it an ideal choice for AI-assisted game development.
+
+### AI-Assisted Game Development
+
+Phaser has been part of the training data for every major frontier LLM. Models from Anthropic, OpenAI, Google, and others understand the Phaser API deeply -- they can generate game code, debug rendering issues, set up physics, build scene structures, and work with tilemaps, tweens, and animations out of the box.
+
+This makes Phaser an excellent choice for AI-assisted development workflows. Tools like [Claude Code](https://claude.ai/claude-code), Cursor, Windsurf, GitHub Copilot, and others can scaffold entire Phaser games, implement features from natural language descriptions, and help you iterate quickly. Combined with Phaser's comprehensive TypeScript definitions, AI coding assistants get strong type context and can produce accurate, working code with minimal correction.
+
+Whether you're a solo dev using AI to move faster, a team using it for prototyping, or someone learning game development with an AI pair programmer, Phaser's well-documented, consistent API means the AI is working with you, not fighting the framework.
+
+### What's New in Phaser 4
+
+Here are the headline features. For the full picture, see the [Changelog](changelog/4.0/CHANGELOG-v4.0.0.md) and [Migration Guide](changelog/4.0/MIGRATION-GUIDE.md).
+
+#### New Render Node Architecture
+
+The v3 pipeline system has been replaced with a clean, node-based renderer. Each render node handles a single task, WebGL state is fully managed, and context restoration is built in. The result is a renderer that's faster, more reliable, and much easier to extend with custom rendering logic. Quads now use index buffers, reducing vertex upload costs by a third. Multi-texture batching is smarter, avoiding unnecessary batch breaks on mobile. And the whole system uses just-in-time rendering -- nothing hits the GPU until it absolutely has to.
+
+#### Unified Filter System
+
+FX and Masks from v3 have been unified into a single, powerful **Filter** system. Filters can be applied to any game object or camera -- no more restrictions on which objects support effects. Every filter takes an input image and produces an output, usually via a single shader, so they're all mutually compatible.
+
+v4 ships with a huge library of built-in filters: Blur, Glow, Shadow, Pixelate, ColorMatrix, Bloom, Vignette, Wipe, and many more. New additions include **ImageLight** for realistic image-based lighting, **Blocky** for pixel-art-friendly pixelation, **GradientMap** for palette-swap effects, **Quantize** for retro dithered palettes, **Key** for chroma keying, **NormalTools** for normal map manipulation, and **Blend** which brings all 27 Canvas blend modes to WebGL.
+
+Masks are now a filter too, more powerful than ever. A `Container` full of filtered, masked objects can itself be used as a mask source.
+
+#### SpriteGPULayer -- Render a Million Sprites
+
+`SpriteGPULayer` is a new game object designed to render massive numbers of sprites. Where standard Phaser rendering handles tens of thousands of sprites comfortably, SpriteGPULayer handles **a million or more**, up to 100x faster.
+
+It works by storing all member data in a static GPU buffer and rendering everything in a single draw call, skipping the per-frame CPU-to-GPU upload that's normally the main bottleneck. Members aren't just static, either -- each one supports GPU-driven animations on position, rotation, scale, alpha, tint, and frame, with a full set of easing functions (Linear, Quad, Cubic, Bounce, Gravity, and many more). Per-member scroll factors enable parallax backgrounds, and non-looping mode supports one-off particle effects. It's perfect for bringing complex, animated backgrounds to life without touching your frame budget.
+
+#### TilemapGPULayer -- Render Millions of Tiles
+
+`TilemapGPULayer` renders an entire tilemap layer as a single quad. The shader cost is per-pixel, not per-tile, so it can display up to 4096 x 4096 tiles with no performance penalty for tile count. It also produces perfect texture filtering across tile boundaries -- no seams, no bleeding. If you need large maps on screen at once, especially on mobile, this is the way to go.
+
+#### Overhauled Tint System
+
+Tint has been reworked with color and mode as separate concerns. Six tint modes are available: `MULTIPLY`, `FILL`, `ADD`, `SCREEN`, `OVERLAY`, and `HARD_LIGHT`. The new `setTintMode()` method gives you explicit control, and BitmapText tinting finally works correctly.
+
+#### New Game Objects
+
+- **Gradient** -- Render linear, radial, conic, and bilinear color gradients with dithering support, powered by the new `ColorBand` and `ColorRamp` classes.
+- **Noise, NoiseCell (2D/3D/4D), NoiseSimplex (2D/3D)** -- Generate and animate cellular noise, simplex noise, and random static on the GPU, with normal map output for use in lighting and effects.
+- **CaptureFrame** -- Snapshot the current framebuffer mid-render for post-processing tricks.
+- **Stamp** -- Render a camera-independent quad, useful for DynamicTexture operations.
+
+#### Improved Lighting
+
+Lighting is now as simple as `sprite.setLighting(true)` -- no pipeline juggling required. Objects can cast self-shadows based on their own texture, lights have an explicit `z` height value, and lighting works across most game objects including BitmapText, Particles, TileSprite, and both tilemap layer types.
+
+#### Shader and TileSprite Improvements
+
+The `Shader` game object has been rewritten with a cleaner config-based API (`ShaderQuadConfig`), and GLSL loading now uses standard `#pragma` directives that work with syntax checkers. `TileSprite` has been rebuilt with a new shader that supports texture atlas frames and tile rotation -- no more whole-texture-only limitation.
+
+---
 
 ## Phaser TypeScript Definitions
 
@@ -59,6 +128,10 @@ Depending on your project, you may need to add the following to your `tsconfig.j
 "typeRoots": ["./node_modules/phaser/types"],
 "types": ["Phaser"]
 ```
+
+## Migrating from Phaser 3
+
+Phaser 4 keeps most of the public API you know, but there are important breaking changes -- the renderer, tint system, FX/Masks, Shader API, lighting, and several removed classes (Point, Mesh, BitmapMask) all need attention. We've written a detailed [Migration Guide](changelog/4.0/MIGRATION-GUIDE.md) with a checklist to walk you through it.
 
 ## Have fun!
 
