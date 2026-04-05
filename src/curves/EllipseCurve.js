@@ -15,8 +15,17 @@ var Vector2 = require('../math/Vector2');
 
 /**
  * @classdesc
- * An Elliptical Curve derived from the Base Curve class.
- * 
+ * An Ellipse Curve is a smooth curve that describes the path of an ellipse. It can be used
+ * to move Game Objects along an elliptical path, generate points distributed around an ellipse,
+ * or draw elliptical arcs as part of a Path or Graphics object.
+ *
+ * You can control the center position, horizontal and vertical radii, start and end angles,
+ * rotation, and whether the curve runs clockwise or anti-clockwise. Passing only `xRadius`
+ * will create a circle (both radii are equal by default).
+ *
+ * This curve extends the base `Phaser.Curves.Curve` class and can be used anywhere a Curve
+ * is accepted in Phaser, such as `Phaser.Curves.Path` or a `PathFollower` Game Object.
+ *
  * See https://en.wikipedia.org/wiki/Ellipse for more details.
  *
  * @class Ellipse
@@ -120,7 +129,7 @@ var EllipseCurve = new Class({
         this._endAngle = DegToRad(endAngle);
 
         /**
-         * Anti-clockwise direction.
+         * Whether the ellipse arc is drawn clockwise (`true`) or anti-clockwise (`false`).
          *
          * @name Phaser.Curves.Ellipse#_clockwise
          * @type {boolean}
@@ -130,7 +139,7 @@ var EllipseCurve = new Class({
         this._clockwise = clockwise;
 
         /**
-         * The rotation of the arc.
+         * The rotation of the ellipse arc, in radians.
          *
          * @name Phaser.Curves.Ellipse#_rotation
          * @type {number}
@@ -175,7 +184,7 @@ var EllipseCurve = new Class({
     },
 
     /**
-     * Get point at relative position in curve according to length.
+     * Returns the point on this curve at the given normalized position `t`, where 0 is the start and 1 is the end. The result accounts for the start angle, end angle, clockwise direction, and rotation of the ellipse.
      *
      * @method Phaser.Curves.Ellipse#getPoint
      * @since 3.0.0
@@ -285,7 +294,7 @@ var EllipseCurve = new Class({
     },
 
     /**
-     * Sets the width of this curve.
+     * Sets the width of this curve. The horizontal radius (`xRadius`) is set to half the given value.
      *
      * @method Phaser.Curves.Ellipse#setWidth
      * @since 3.0.0
@@ -302,7 +311,7 @@ var EllipseCurve = new Class({
     },
 
     /**
-     * Sets the height of this curve.
+     * Sets the height of this curve. The vertical radius (`yRadius`) is set to half the given value.
      *
      * @method Phaser.Curves.Ellipse#setHeight
      * @since 3.0.0

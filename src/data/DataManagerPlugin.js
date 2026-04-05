@@ -11,9 +11,11 @@ var SceneEvents = require('../scene/events');
 
 /**
  * @classdesc
- * The Data Manager Plugin is a Game Object Component that provides data storage and retrieval
- * functionality, integrated with the Scene lifecycle. It extends DataManager with automatic
- * Scene event handling for shutdown and destroy cleanup.
+ * The Data Manager Plugin is a Scene Plugin that provides data storage and retrieval
+ * functionality for a Scene, integrated with the Scene lifecycle. It extends the base DataManager
+ * class with automatic event handling for Scene shutdown and destroy events, ensuring that stored
+ * data and event listeners are properly cleaned up when the Scene stops or is destroyed.
+ * It is accessed via `scene.data` within any Scene.
  *
  * @class DataManagerPlugin
  * @extends Phaser.Data.DataManager
@@ -98,8 +100,9 @@ var DataManagerPlugin = new Class({
     },
 
     /**
-     * The Scene that owns this plugin is being destroyed.
-     * We need to shutdown and then kill off all external references.
+     * Destroys this DataManagerPlugin, calling the base DataManager destroy method,
+     * removing all Scene event listeners, and clearing all internal references.
+     * This is called automatically when the owning Scene is destroyed.
      *
      * @method Phaser.Data.DataManagerPlugin#destroy
      * @since 3.5.0

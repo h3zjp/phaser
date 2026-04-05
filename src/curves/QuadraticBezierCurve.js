@@ -90,7 +90,7 @@ var QuadraticBezier = new Class({
     },
 
     /**
-     * Returns the resolution of this curve, which is the number of points used to approximate it. For a Quadratic Bezier, this is proportional to the requested number of divisions.
+     * Returns the resolution of this curve. For a Quadratic Bezier, the resolution is equal to the number of divisions requested.
      *
      * @method Phaser.Curves.QuadraticBezier#getResolution
      * @since 3.2.0
@@ -190,7 +190,7 @@ var QuadraticBezier = new Class({
 });
 
 /**
- * Creates a curve from a JSON object, e. g. created by `toJSON`.
+ * Creates a curve from a JSON object, e.g. created by `toJSON`.
  *
  * @function Phaser.Curves.QuadraticBezier.fromJSON
  * @since 3.2.0

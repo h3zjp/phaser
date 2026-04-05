@@ -13,6 +13,15 @@ var Vector2 = require('../math/Vector2');
  * @classdesc
  * A Base Curve class, which all other curve types extend.
  *
+ * A Curve represents a mathematical path through 2D space and provides methods for
+ * sampling points, calculating arc lengths, and obtaining tangent vectors along it.
+ * Curves are the building blocks of `Phaser.Curves.Path`, which allows Game Objects
+ * to follow complex routes through a scene.
+ *
+ * This class is not intended to be instantiated directly. Instead, use one of the
+ * concrete subclasses in the `Phaser.Curves` namespace, such as `LineCurve`,
+ * `QuadraticBezier`, `CubicBezier`, `EllipseCurve`, or `SplineCurve`.
+ *
  * Based on the three.js Curve classes created by [zz85](http://www.lab4games.net/zz85/blog)
  *
  * @class Curve
@@ -194,7 +203,7 @@ var Curve = new Class({
      *
      * @param {Phaser.Math.Vector2} [out] - Optional Vector object to store the result in.
      *
-     * @return {Phaser.Math.Vector2} Vector2 containing the coordinates of the curves end point.
+     * @return {Phaser.Math.Vector2} Vector2 containing the coordinates of the curve's end point.
      */
     getEndPoint: function (out)
     {
@@ -429,9 +438,9 @@ var Curve = new Class({
 
     /**
      * Get a unit vector tangent at a relative position on the curve.
-     * In case any sub curve does not implement its tangent derivation,
-     * 2 points a small delta apart will be used to find its gradient
-     * which seems to give a reasonable approximation
+     * If a subclass does not override this method with an analytic tangent derivation,
+     * the tangent is approximated by sampling two points a small delta apart and
+     * computing the normalized direction vector between them.
      *
      * @method Phaser.Curves.Curve#getTangent
      * @since 3.0.0

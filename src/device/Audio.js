@@ -43,6 +43,21 @@ var Audio = {
 
 };
 
+/**
+ * Initializes the Audio device detection by querying the browser for its audio playback
+ * capabilities. It creates a temporary audio element and calls `canPlayType` for each
+ * supported format (ogg, opus, mp3, wav, m4a, aac, flac, webm) to determine which formats
+ * the current browser supports. It also detects Web Audio API availability and EC-3 Dolby
+ * Digital Plus support, which requires Edge or Safari 9+ on OS X 10.11 or later.
+ *
+ * If running inside a Web Worker (where `importScripts` is available), detection is skipped
+ * and default values are returned unchanged.
+ *
+ * @function Phaser.Device.Audio.init
+ * @since 3.0.0
+ *
+ * @return {Phaser.Device.Audio} The populated Audio device object.
+ */
 function init ()
 {
     if (typeof importScripts === 'function')

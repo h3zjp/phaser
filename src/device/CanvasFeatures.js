@@ -15,7 +15,7 @@ var CanvasPool = require('../display/canvas/CanvasPool');
  * @typedef {object} Phaser.Device.CanvasFeatures
  * @since 3.0.0
  *
- * @property {boolean} supportInverseAlpha - Set to true if the browser supports inversed alpha.
+ * @property {boolean} supportInverseAlpha - Set to true if the browser supports inverted alpha.
  * @property {boolean} supportNewBlendModes - Set to true if the browser supports new canvas blend modes.
  */
 var CanvasFeatures = {
