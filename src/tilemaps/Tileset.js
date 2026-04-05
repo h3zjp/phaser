@@ -92,7 +92,7 @@ var Tileset = new Class({
         this.tileMargin = tileMargin;
 
         /**
-         * The spacing between each the tile in the sheet (in pixels). Use `setSpacing` to change.
+         * The spacing between each tile in the sheet (in pixels). Use `setSpacing` to change.
          *
          * @name Phaser.Tilemaps.Tileset#tileSpacing
          * @type {number}
@@ -256,7 +256,7 @@ var Tileset = new Class({
     },
 
     /**
-     * Get a tiles properties that are stored in the Tileset. Returns null if tile index is not
+     * Get a tile's properties that are stored in the Tileset. Returns null if tile index is not
      * contained in this Tileset. This is typically defined in Tiled under the Tileset editor.
      *
      * @method Phaser.Tilemaps.Tileset#getTileProperties

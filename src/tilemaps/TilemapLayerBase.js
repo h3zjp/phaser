@@ -211,18 +211,40 @@ var TilemapLayerBase = new Class({
         this.setSize(tilemap.tileWidth * this.layer.width, tilemap.tileHeight * this.layer.height);
     },
 
-    //  Overrides Game Object method
+    /**
+     * This method is called automatically by the Scene when this Game Object is added to it.
+     * It registers the layer with the Scene's update list so that `preUpdate` is called each game step.
+     *
+     * @method Phaser.Tilemaps.TilemapLayerBase#addedToScene
+     * @since 4.0.0
+     */
     addedToScene: function ()
     {
         this.scene.sys.updateList.add(this);
     },
 
-    //  Overrides Game Object method
+    /**
+     * This method is called automatically by the Scene when this Game Object is removed from it.
+     * It unregisters the layer from the Scene's update list.
+     *
+     * @method Phaser.Tilemaps.TilemapLayerBase#removedFromScene
+     * @since 4.0.0
+     */
     removedFromScene: function ()
     {
         this.scene.sys.updateList.remove(this);
     },
 
+    /**
+     * The internal update step for this Tilemap Layer. Called automatically by the Scene's update list.
+     * Advances the layer's elapsed timer, which is used by time-based tile animations.
+     *
+     * @method Phaser.Tilemaps.TilemapLayerBase#preUpdate
+     * @since 4.0.0
+     *
+     * @param {number} time - The current timestamp.
+     * @param {number} delta - The delta time, in milliseconds, elapsed since the last frame.
+     */
     preUpdate: function (time, delta)
     {
         this.updateTimer(time, delta);
@@ -347,7 +369,7 @@ var TilemapLayerBase = new Class({
     /**
      * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
      * filter callback function. Any tiles that pass the filter test (i.e. where the callback returns
-     * true) will returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
+     * true) will be returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
      *
      * @method Phaser.Tilemaps.TilemapLayerBase#filterTiles
      * @since 3.50.0
@@ -372,7 +394,7 @@ var TilemapLayerBase = new Class({
     /**
      * Searches the entire map layer for the first tile matching the given index, then returns that Tile
      * object. If no match is found, it returns null. The search starts from the top-left tile and
-     * continues horizontally until it hits the end of the row, then it drops down to the next column.
+     * continues horizontally until it hits the end of the row, then it drops down to the next row.
      * If the reverse boolean is true, it scans starting from the bottom-right corner traveling up to
      * the top-left.
      *
@@ -693,7 +715,7 @@ var TilemapLayerBase = new Class({
      * @param {boolean} [replaceWithNull=true] - If true, this will replace the tile at the specified location with null instead of a Tile with an index of -1.
      * @param {boolean} [recalculateFaces=true] - `true` if the faces data should be recalculated.
      *
-     * @return {Phaser.Tilemaps.Tile} A Tile object.
+     * @return {Phaser.Tilemaps.Tile} The Tile object that was removed from the given location.
      */
     removeTileAt: function (tileX, tileY, replaceWithNull, recalculateFaces)
     {
@@ -948,7 +970,7 @@ var TilemapLayerBase = new Class({
 
     /**
      * Scans the given rectangular area (given in tile coordinates) for tiles with an index matching
-     * `indexA` and swaps then with `indexB`. This only modifies the index and does not change collision
+     * `indexA` and swaps them with `indexB`. This only modifies the index and does not change collision
      * information.
      *
      * @method Phaser.Tilemaps.TilemapLayerBase#swapByIndex
@@ -1059,10 +1081,10 @@ var TilemapLayerBase = new Class({
      *  { index: 6, weight: 4 },    // Probability of index 6 is 4 / 8
      *  { index: 7, weight: 2 },    // Probability of index 7 would be 2 / 8
      *  { index: 8, weight: 1.5 },  // Probability of index 8 would be 1.5 / 8
-     *  { index: 26, weight: 0.5 }  // Probability of index 27 would be 0.5 / 8
+     *  { index: 26, weight: 0.5 }  // Probability of index 26 would be 0.5 / 8
      * ]
      *
-     * The probability of any index being choose is (the index's weight) / (sum of all weights). This
+     * The probability of any index being chosen is (the index's weight) / (sum of all weights). This
      * method only modifies tile indexes and does not change collision information.
      *
      * @method Phaser.Tilemaps.TilemapLayerBase#weightedRandomize

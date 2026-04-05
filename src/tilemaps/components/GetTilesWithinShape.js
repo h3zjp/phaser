@@ -34,7 +34,7 @@ var pointEnd = new Vector2();
  * @param {Phaser.Cameras.Scene2D.Camera} camera - The Camera to use when calculating the tile index from the world values.
  * @param {Phaser.Tilemaps.LayerData} layer - The Tilemap Layer to act upon.
  *
- * @return {Phaser.Tilemaps.Tile[]} Array of Tile objects.
+ * @return {Phaser.Tilemaps.Tile[]} An array of Tile objects that intersect with the given shape, or an empty array if no tiles overlap or the layer is not orthogonal.
  */
 var GetTilesWithinShape = function (shape, filteringOptions, camera, layer)
 {

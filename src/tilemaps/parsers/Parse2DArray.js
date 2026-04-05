@@ -21,7 +21,7 @@ var Tile = require('../Tile');
  * @param {number} tileHeight - The height of a tile in pixels.
  * @param {boolean} insertNull - Controls how empty tiles, tiles with an index of -1, in the map
  * data are handled. If `true`, empty locations will get a value of `null`. If `false`, empty
- * location will get a Tile object with an index of -1. If you've a large sparsely populated map and
+ * locations will get a Tile object with an index of -1. If you have a large sparsely populated map and
  * the tile data doesn't need to change then setting this value to `true` will help with memory
  * consumption. However if your map is small or you need to update the tiles dynamically, then leave
  * the default value set.

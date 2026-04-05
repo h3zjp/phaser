@@ -8,7 +8,7 @@ var CullBounds = require('./StaggeredCullBounds');
 var RunCull = require('./RunCull');
 
 /**
- * Returns the tiles in the given layer that are within the cameras viewport. This is used internally.
+ * Returns the tiles in the given layer that are within the camera's viewport. This is used internally.
  *
  * @function Phaser.Tilemaps.Components.StaggeredCullTiles
  * @since 3.50.0

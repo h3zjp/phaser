@@ -81,7 +81,7 @@ var BaseSound = new Class({
 
         /**
          * A property that holds the value of sound's actual playback rate,
-         * after its rate and detune values has been combined with global
+         * after its rate and detune values have been combined with global
          * rate and detune values.
          *
          * @name Phaser.Sound.BaseSound#totalRate
@@ -230,7 +230,7 @@ var BaseSound = new Class({
     },
 
     /**
-     * Updates previously added marker.
+     * Updates a previously added marker with new values from the provided marker object.
      *
      * @method Phaser.Sound.BaseSound#updateMarker
      * @since 3.0.0

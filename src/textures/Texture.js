@@ -96,7 +96,7 @@ var Texture = new Class({
 
         /**
          * Any additional data that was set in the source JSON (if any),
-         * or any extra data you'd like to store relating to this texture
+         * or any extra data you'd like to store relating to this texture.
          *
          * @name Phaser.Textures.Texture#customData
          * @type {object}
@@ -127,8 +127,9 @@ var Texture = new Class({
         this.frameTotal = 0;
 
         /**
-         * Whether shaders using this texture should use special filtering code.
-         * This relies on shader support.
+         * Controls whether shaders using this texture should apply smooth interpolation
+         * when rendering pixel art. When enabled, the renderer uses shader-based smoothing
+         * to reduce the jagged appearance of upscaled pixel art. This relies on shader support.
          *
          * If `null`, the game default will be used.
          *
@@ -624,7 +625,7 @@ var Texture = new Class({
      *
      * @method Phaser.Textures.Texture#setSmoothPixelArt
      * @since 4.0.0
-     * @param {boolean|null} value - The value of the smoothPixelArt property.
+     * @param {boolean|null} value - Set to `true` to enable smooth pixel art interpolation and apply LINEAR filtering. Set to `false` to disable smooth interpolation without changing the filter mode. Set to `null` to use the game's default setting.
      */
     setSmoothPixelArt: function (value)
     {

@@ -296,9 +296,11 @@ var Scene = new Class({
     },
 
     /**
-     * This method should be overridden by your own Scenes.
+     * Override this method in your own Scene subclass to implement per-frame game logic.
      *
-     * This method is called once per game step while the scene is running.
+     * This method is called automatically once per game step while the scene is running.
+     * It is empty by default and is the primary place to put logic that needs to run every frame,
+     * such as updating game object positions, checking collisions, or reading input state.
      *
      * @method Phaser.Scene#update
      * @since 3.0.0

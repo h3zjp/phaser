@@ -23,7 +23,7 @@ var Tile = require('../Tile');
  * @param {number} height - The height of the area to copy, in tiles, not pixels.
  * @param {number} destTileX - The x coordinate of the area to copy to, in tiles, not pixels.
  * @param {number} destTileY - The y coordinate of the area to copy to, in tiles, not pixels.
- * @param {boolean} recalculateFaces - `true` if the faces data should be recalculated.
+ * @param {boolean} recalculateFaces - `true` if the collision face data for tiles in the destination region should be recalculated after the copy.
  * @param {Phaser.Tilemaps.LayerData} layer - The Tilemap Layer to act upon.
  */
 var Copy = function (srcTileX, srcTileY, width, height, destTileX, destTileY, recalculateFaces, layer)

@@ -7,7 +7,12 @@
 var CONST = require('../const/ORIENTATION_CONST');
 
 /**
- * Get the Tilemap orientation from the given string.
+ * Converts a Tilemap orientation string into the corresponding `Phaser.Tilemaps.OrientationType`
+ * constant. Recognized values are `'isometric'`, `'staggered'`, and `'hexagonal'`. Any other
+ * string, including `'orthogonal'`, will return the orthogonal orientation constant, which is
+ * the default grid-based orientation used by most tilemaps.
+ *
+ * The comparison is case-insensitive.
  *
  * @function Phaser.Tilemaps.Parsers.FromOrientationString
  * @since 3.50.0

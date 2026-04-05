@@ -91,7 +91,7 @@ module.exports = {
 
     /**
      * The Canvas's visible area is resized to fit all available _parent_ space like RESIZE mode,
-     * and scale canvas size to fit inside the visible area like FIT mode.
+     * and scales the canvas size to fit inside the visible area like FIT mode.
      *
      * @name Phaser.Scale.ScaleModes.EXPAND
      * @type {number}

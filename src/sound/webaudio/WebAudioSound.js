@@ -12,7 +12,17 @@ var GetFastValue = require('../../utils/object/GetFastValue');
 
 /**
  * @classdesc
- * Web Audio API implementation of the sound.
+ * A Web Audio API based Sound instance that can be played, paused, stopped, looped, and have
+ * its volume, rate, detune, pan, and spatial position controlled in real time.
+ *
+ * This is the default sound implementation used by Phaser when the Web Audio API is available in
+ * the browser. It uses an AudioBufferSourceNode internally, with a chain of GainNodes for volume
+ * and muting, an optional StereoPannerNode for stereo panning, and an optional PannerNode for
+ * 3D spatial audio positioning.
+ *
+ * If the Web Audio API is unavailable, Phaser will fall back to the HTML5 Audio implementation.
+ * You do not typically create WebAudioSound instances directly; instead, use the Sound Manager
+ * via `this.sound.add(key)` within a Scene.
  *
  * @class WebAudioSound
  * @extends Phaser.Sound.BaseSound
@@ -526,7 +536,7 @@ var WebAudioSound = new Class({
     },
 
     /**
-     * Sets the x position of this Sound in Spatial Audio space.
+     * Gets or sets the x position of this Sound in Spatial Audio space.
      *
      * This only has any effect if the sound was created with a SpatialSoundConfig object.
      *
@@ -564,7 +574,7 @@ var WebAudioSound = new Class({
     },
 
     /**
-     * Sets the y position of this Sound in Spatial Audio space.
+     * Gets or sets the y position of this Sound in Spatial Audio space.
      *
      * This only has any effect if the sound was created with a SpatialSoundConfig object.
      *
@@ -655,7 +665,7 @@ var WebAudioSound = new Class({
 
     /**
      * Calls Phaser.Sound.BaseSound#destroy method
-     * and cleans up all Web Audio API related stuff.
+     * and disconnects all Web Audio API nodes, releasing all references to audio resources.
      *
      * @method Phaser.Sound.WebAudioSound#destroy
      * @since 3.0.0
@@ -778,7 +788,7 @@ var WebAudioSound = new Class({
     /**
      * Rate at which this Sound will be played.
      * Value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
-     * and 2.0 doubles the audios playback speed.
+     * and 2.0 doubles the audio's playback speed.
      *
      * @name Phaser.Sound.WebAudioSound#rate
      * @type {number}
@@ -808,13 +818,13 @@ var WebAudioSound = new Class({
      * Sets the playback rate of this Sound.
      *
      * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
-     * and 2.0 doubles the audios playback speed.
+     * and 2.0 doubles the audio's playback speed.
      *
      * @method Phaser.Sound.WebAudioSound#setRate
      * @fires Phaser.Sound.Events#RATE
      * @since 3.3.0
      *
-     * @param {number} value - The playback rate at of this Sound.
+     * @param {number} value - The playback rate of this Sound.
      *
      * @return {this} This Sound instance.
      */
@@ -873,7 +883,6 @@ var WebAudioSound = new Class({
     },
 
     /**
-     * Boolean indicating whether the sound is muted or not.
      * Gets or sets the muted state of this sound.
      *
      * @name Phaser.Sound.WebAudioSound#mute
@@ -949,7 +958,7 @@ var WebAudioSound = new Class({
      * @fires Phaser.Sound.Events#VOLUME
      * @since 3.4.0
      *
-     * @param {number} value - The volume of the sound.
+     * @param {number} value - The volume of the sound, between 0 (silence) and 1 (full volume).
      *
      * @return {this} This Sound instance.
      */
@@ -1025,7 +1034,7 @@ var WebAudioSound = new Class({
      * @fires Phaser.Sound.Events#SEEK
      * @since 3.4.0
      *
-     * @param {number} value - The point in the sound to seek to.
+     * @param {number} value - The point in the sound to seek to, in seconds.
      *
      * @return {this} This Sound instance.
      */

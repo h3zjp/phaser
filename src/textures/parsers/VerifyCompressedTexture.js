@@ -79,6 +79,9 @@ function checkAlways ()
     return true;
 }
 
+/**
+ * @ignore
+ */
 function checkPVRTC (data)
 {
     // WEBGL_compressed_texture_pvrtc

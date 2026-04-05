@@ -324,7 +324,7 @@ var HTML5AudioSoundManager = new Class({
 
     /**
      * Calls Phaser.Sound.BaseSoundManager#destroy method
-     * and cleans up all HTML5 Audio related stuff.
+     * and cleans up all HTML5 Audio related resources.
      *
      * @method Phaser.Sound.HTML5AudioSoundManager#destroy
      * @since 3.0.0
@@ -369,7 +369,7 @@ var HTML5AudioSoundManager = new Class({
     },
 
     /**
-     * Sets the muted state of all this Sound Manager.
+     * Sets the muted state of this Sound Manager.
      *
      * @method Phaser.Sound.HTML5AudioSoundManager#setMute
      * @fires Phaser.Sound.Events#GLOBAL_MUTE
@@ -387,6 +387,10 @@ var HTML5AudioSoundManager = new Class({
     },
 
     /**
+     * Gets or sets the muted state of this Sound Manager. Setting this to `true` mutes all
+     * active sounds, while setting it to `false` restores their volume. Fires the
+     * `GLOBAL_MUTE` event when changed.
+     *
      * @name Phaser.Sound.HTML5AudioSoundManager#mute
      * @type {boolean}
      * @fires Phaser.Sound.Events#GLOBAL_MUTE
@@ -432,6 +436,10 @@ var HTML5AudioSoundManager = new Class({
     },
 
     /**
+     * Gets or sets the global volume of this Sound Manager. All active sounds will have their
+     * volume scaled by this value. Must be between 0 (silent) and 1 (full volume). Fires the
+     * `GLOBAL_VOLUME` event when changed.
+     *
      * @name Phaser.Sound.HTML5AudioSoundManager#volume
      * @type {number}
      * @fires Phaser.Sound.Events#GLOBAL_VOLUME

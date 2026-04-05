@@ -13,9 +13,16 @@ var TintModes = require('../renderer/TintModes');
 
 /**
  * @classdesc
- * A Tile is a representation of a single tile within the Tilemap. This is a lightweight data
- * representation, so its position information is stored without factoring in scroll, layer
- * scale or layer position.
+ * A Tile is a representation of a single tile within a Tilemap layer. Each tile has a position
+ * within the map grid (in tile coordinates), a size in pixels, collision flags for each of its
+ * four edges, optional custom properties imported from the Tiled map editor, and an optional
+ * collision callback. Tiles are lightweight data objects - they do not extend GameObject - so
+ * their pixel positions are stored relative to the layer origin and do not factor in camera
+ * scroll, layer scale, or layer position. Use the `getLeft`, `getRight`, `getTop`, `getBottom`,
+ * and `getBounds` methods to obtain world-space coordinates that account for those transforms.
+ *
+ * Tiles are created and managed by `TilemapLayer` and should not normally be instantiated
+ * directly. You can access them via `TilemapLayer.getTileAt` or similar Tilemap methods.
  *
  * @class Tile
  * @memberof Phaser.Tilemaps
@@ -129,7 +136,7 @@ var Tile = new Class({
         this.bottom;
 
         /**
-         * The maps base width of a tile in pixels. Tiled maps support multiple tileset sizes
+         * The map's base width of a tile in pixels. Tiled maps support multiple tileset sizes
          * within one map, but they are still placed at intervals of the base tile size.
          *
          * @name Phaser.Tilemaps.Tile#baseWidth
@@ -139,7 +146,7 @@ var Tile = new Class({
         this.baseWidth = (baseWidth !== undefined) ? baseWidth : width;
 
         /**
-         * The maps base height of a tile in pixels. Tiled maps support multiple tileset sizes
+         * The map's base height of a tile in pixels. Tiled maps support multiple tileset sizes
          * within one map, but they are still placed at intervals of the base tile size.
          *
          * @name Phaser.Tilemaps.Tile#baseHeight
@@ -239,7 +246,7 @@ var Tile = new Class({
         this.collideDown = false;
 
         /**
-         * Whether the tiles left edge is interesting for collisions.
+         * Whether the tile's left edge is interesting for collisions.
          *
          * @name Phaser.Tilemaps.Tile#faceLeft
          * @type {boolean}
@@ -248,7 +255,7 @@ var Tile = new Class({
         this.faceLeft = false;
 
         /**
-         * Whether the tiles right edge is interesting for collisions.
+         * Whether the tile's right edge is interesting for collisions.
          *
          * @name Phaser.Tilemaps.Tile#faceRight
          * @type {boolean}
@@ -257,7 +264,7 @@ var Tile = new Class({
         this.faceRight = false;
 
         /**
-         * Whether the tiles top edge is interesting for collisions.
+         * Whether the tile's top edge is interesting for collisions.
          *
          * @name Phaser.Tilemaps.Tile#faceTop
          * @type {boolean}
@@ -266,7 +273,7 @@ var Tile = new Class({
         this.faceTop = false;
 
         /**
-         * Whether the tiles bottom edge is interesting for collisions.
+         * Whether the tile's bottom edge is interesting for collisions.
          *
          * @name Phaser.Tilemaps.Tile#faceBottom
          * @type {boolean}
@@ -275,7 +282,9 @@ var Tile = new Class({
         this.faceBottom = false;
 
         /**
-         * Tile collision callback.
+         * An optional callback function that is invoked when an Arcade Physics body collides with
+         * this tile. The callback must return `true` for collision processing to take place. Set
+         * via `setCollisionCallback`.
          *
          * @name Phaser.Tilemaps.Tile#collisionCallback
          * @type {function}
@@ -410,7 +419,7 @@ var Tile = new Class({
     },
 
     /**
-     * Gets the world X position of the left side of the tile, factoring in the layers position,
+     * Gets the world X position of the left side of the tile, factoring in the layer's position,
      * scale and scroll.
      *
      * @method Phaser.Tilemaps.Tile#getLeft
@@ -483,7 +492,7 @@ var Tile = new Class({
     /**
      * Gets the world Y position of the bottom side of the tile, factoring in the layer's position,
      * scale and scroll.
-
+     *
      * @method Phaser.Tilemaps.Tile#getBottom
      * @since 3.0.0
      *
@@ -501,7 +510,7 @@ var Tile = new Class({
     },
 
     /**
-     * Gets the world rectangle bounding box for the tile, factoring in the layers position,
+     * Gets the world rectangle bounding box for the tile, factoring in the layer's position,
      * scale and scroll.
      *
      * @method Phaser.Tilemaps.Tile#getBounds
@@ -563,10 +572,10 @@ var Tile = new Class({
      * @method Phaser.Tilemaps.Tile#intersects
      * @since 3.0.0
      *
-     * @param {number} x - The x axis in pixels.
-     * @param {number} y - The y axis in pixels.
-     * @param {number} right - The right point.
-     * @param {number} bottom - The bottom point.
+     * @param {number} x - The left edge of the rectangle to intersect with, in pixels.
+     * @param {number} y - The top edge of the rectangle to intersect with, in pixels.
+     * @param {number} right - The right edge of the rectangle to intersect with, in pixels.
+     * @param {number} bottom - The bottom edge of the rectangle to intersect with, in pixels.
      *
      * @return {boolean} `true` if the Tile intersects with the given dimensions, otherwise `false`.
      */
@@ -579,7 +588,10 @@ var Tile = new Class({
     },
 
     /**
-     * Checks if the tile is interesting.
+     * Checks whether this tile is considered "interesting" based on the provided criteria. A tile
+     * is interesting if it has active collision flags on any side, if it has an interesting face,
+     * or both, depending on the arguments passed. This is used internally by the tilemap collision
+     * system to quickly filter tiles that need further processing.
      *
      * @method Phaser.Tilemaps.Tile#isInteresting
      * @since 3.0.0
@@ -608,7 +620,9 @@ var Tile = new Class({
     },
 
     /**
-     * Reset collision status flags.
+     * Resets all collision status flags on this tile to `false`, clearing any collisions set on
+     * each of its four edges. If `recalculateFaces` is true (the default), the interesting face
+     * flags for this tile and its neighbors in the layer are also recalculated.
      *
      * @method Phaser.Tilemaps.Tile#resetCollision
      * @since 3.0.0
@@ -645,7 +659,9 @@ var Tile = new Class({
     },
 
     /**
-     * Reset faces.
+     * Resets all four interesting face flags (`faceTop`, `faceBottom`, `faceLeft`, `faceRight`)
+     * to `false`. Unlike `resetCollision`, this does not affect the collision flags and does not
+     * trigger a face recalculation on neighboring tiles.
      *
      * @method Phaser.Tilemaps.Tile#resetFaces
      * @since 3.0.0
@@ -760,7 +776,7 @@ var Tile = new Class({
     },
 
     /**
-     * Used internally. Updates the tiles world XY position based on the current tile size.
+     * Used internally. Updates the tile's world XY position based on the current tile size.
      *
      * @method Phaser.Tilemaps.Tile#updatePixelXY
      * @since 3.0.0
@@ -840,7 +856,8 @@ var Tile = new Class({
     },
 
     /**
-     * Clean up memory.
+     * Destroys this tile by nullifying its collision callback and custom properties, releasing
+     * references that could otherwise prevent garbage collection.
      *
      * @method Phaser.Tilemaps.Tile#destroy
      * @since 3.0.0
@@ -906,7 +923,7 @@ var Tile = new Class({
     /**
      * The tileset that contains this Tile. This is null if accessed from a LayerData instance
      * before the tile is placed in a TilemapLayer, or if the tile has an index that doesn't correspond
-     * to any of the maps tilesets.
+     * to any of the map's tilesets.
      *
      * @name Phaser.Tilemaps.Tile#tileset
      * @type {?Phaser.Tilemaps.Tileset}

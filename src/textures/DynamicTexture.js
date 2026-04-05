@@ -615,10 +615,10 @@ var DynamicTexture = new Class({
      * @method Phaser.Textures.DynamicTexture#clear
      * @since 3.2.0
      *
-     * @param {number} [x=0] - The left coordinate of the fill rectangle.
-     * @param {number} [y=0] - The top coordinate of the fill rectangle.
-     * @param {number} [width=this.width] - The width of the fill rectangle.
-     * @param {number} [height=this.height] - The height of the fill rectangle.
+     * @param {number} [x=0] - The left coordinate of the area to clear.
+     * @param {number} [y=0] - The top coordinate of the area to clear.
+     * @param {number} [width=this.width] - The width of the area to clear.
+     * @param {number} [height=this.height] - The height of the area to clear.
      *
      * @return {this} This Dynamic Texture instance.
      */
@@ -1267,7 +1267,7 @@ var DynamicTexture = new Class({
     },
 
     /**
-     * This is a NOOP method. Bitmap Masks are not supported by the Canvas Renderer.
+     * This is a NOOP method. Dynamic Textures cannot render themselves to the Canvas Renderer directly.
      *
      * @method Phaser.Textures.DynamicTexture#renderCanvas
      * @since 3.60.0

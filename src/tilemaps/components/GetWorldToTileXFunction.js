@@ -9,16 +9,16 @@ var NULL = require('../../utils/NULL');
 var WorldToTileX = require('./WorldToTileX');
 
 /**
- * Gets the correct function to use to translate tiles, based on the map orientation.
- *
- * Only orthogonal maps support this feature.
+ * Returns the correct function to use for converting a world pixel X coordinate to a tile X
+ * (column) index, based on the map orientation. Only orthogonal maps support this conversion;
+ * for all other orientations a NULL function is returned.
  *
  * @function Phaser.Tilemaps.Components.GetWorldToTileXFunction
  * @since 3.50.0
  *
  * @param {number} orientation - The Tilemap orientation constant.
  *
- * @return {function} The function to use to translate tiles for the given map type.
+ * @return {function} The function to use to convert a world X coordinate to a tile X index for the given map orientation, or a NULL function if the orientation is unsupported.
  */
 var GetWorldToTileXFunction = function (orientation)
 {

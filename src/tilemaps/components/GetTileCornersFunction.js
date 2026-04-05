@@ -17,7 +17,7 @@ var GetTileCorners = require('./GetTileCorners');
  *
  * @param {number} orientation - The Tilemap orientation constant.
  *
- * @return {function} The function to use to translate tiles for the given map type.
+ * @return {function} The function to use to get the tile corners for the given map orientation.
  */
 var GetTileCornersFunction = function (orientation)
 {

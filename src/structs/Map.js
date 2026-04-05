@@ -75,7 +75,7 @@ var Map = new Class({
     /**
      * Adds all the elements in the given array to this Map.
      *
-     * If the element already exists, the value will be skipped.
+     * If the key already exists, the value will be replaced.
      *
      * @method Phaser.Structs.Map#setAll
      * @since 3.70.0
@@ -241,7 +241,7 @@ var Map = new Class({
     },
 
     /**
-     * Returns all entries keys in this Map.
+     * Returns an array of all entry keys in this Map.
      *
      * @method Phaser.Structs.Map#keys
      * @since 3.0.0
@@ -256,14 +256,14 @@ var Map = new Class({
     },
 
     /**
-     * Returns an `Array` of all entries.
+     * Returns an `Array` of all values stored in this Map.
      *
      * @method Phaser.Structs.Map#values
      * @since 3.0.0
      *
      * @genericUse {V[]} - [$return]
      *
-     * @return {Array.<*>} An `Array` of entries.
+     * @return {Array.<*>} An `Array` of values.
      */
     values: function ()
     {

@@ -484,7 +484,7 @@ var BaseSoundManager = new Class({
     },
 
     /**
-     * Sets the X and Y position of the Spatial Audio listener on this Web Audios context.
+     * Sets the X and Y position of the Spatial Audio listener on this Web Audio context.
      *
      * If you call this method with no parameters it will default to the center-point of
      * the game canvas. Depending on the type of game you're making, you may need to call
@@ -719,7 +719,7 @@ var BaseSoundManager = new Class({
      * @private
      * @since 3.0.0
      *
-     * @param {Phaser.Types.Sound.EachActiveSoundCallback} callback - Callback function. (manager: Phaser.Sound.BaseSoundManager, sound: Phaser.Sound.BaseSound, index: number, sounds: Phaser.Manager.BaseSound[]) => void
+     * @param {Phaser.Types.Sound.EachActiveSoundCallback} callback - Callback function. (manager: Phaser.Sound.BaseSoundManager, sound: Phaser.Sound.BaseSound, index: number, sounds: Phaser.Sound.BaseSound[]) => void
      * @param {*} [scope] - Callback context.
      */
     forEachActiveSound: function (callback, scope)
@@ -795,7 +795,7 @@ var BaseSoundManager = new Class({
      * @fires Phaser.Sound.Events#GLOBAL_DETUNE
      * @since 3.3.0
      *
-     * @param {number} value - The range of the value is -1200 to 1200, but we recommend keeping it within a reasonable range for musical purposes.
+     * @param {number} value - The detuning value in cents. The range is -1200 to 1200, but we recommend keeping it within a reasonable range for musical purposes.
      *
      * @return {this} This Sound Manager.
      */

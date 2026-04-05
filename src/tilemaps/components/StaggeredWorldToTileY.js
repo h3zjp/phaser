@@ -6,7 +6,7 @@
 
 /**
  * Converts from world Y coordinates (pixels) to staggered tile Y coordinates (tile units), factoring in the
- * layers position, scale and scroll.
+ * layer's position, scale and scroll.
  *
  * @function Phaser.Tilemaps.Components.StaggeredWorldToTileY
  * @since 3.50.0

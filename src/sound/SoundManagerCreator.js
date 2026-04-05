@@ -23,6 +23,26 @@ var WebAudioSoundManager = require('./webaudio/WebAudioSoundManager');
  */
 var SoundManagerCreator = {
 
+    /**
+     * Determines the most appropriate Sound Manager to use based on the game configuration
+     * and the audio capabilities of the current device, then creates and returns an instance
+     * of it.
+     *
+     * If the game config has `audio.noAudio` set to `true`, or if the device supports neither
+     * Web Audio nor HTML5 Audio, a `NoAudioSoundManager` is returned, which silently stubs all
+     * sound calls. If Web Audio is supported and not explicitly disabled via
+     * `audio.disableWebAudio`, a `WebAudioSoundManager` is returned. Otherwise, an
+     * `HTML5AudioSoundManager` is returned as a fallback.
+     *
+     * Be aware of https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+     *
+     * @method Phaser.Sound.SoundManagerCreator.create
+     * @since 3.0.0
+     *
+     * @param {Phaser.Game} game - Reference to the current game instance.
+     *
+     * @return {(Phaser.Sound.HTML5AudioSoundManager|Phaser.Sound.WebAudioSoundManager|Phaser.Sound.NoAudioSoundManager)} The Sound Manager instance that was created.
+     */
     create: function (game)
     {
         var audioConfig = game.config.audio;

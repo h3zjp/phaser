@@ -159,8 +159,16 @@ var TilemapGPULayer = new Class({
     },
 
     /**
-     * Generate the data textures for this game object.
-     * This method is called internally by `setTileset`.
+     * Generates the layer data texture for this Game Object.
+     *
+     * The layer data texture is a WebGL texture in which each texel encodes
+     * the tile index, flip flags, and animation flag for a single tile in the
+     * layer. It is consumed by the GPU shader to render the entire tilemap as
+     * a single quad.
+     *
+     * This method is called automatically by `setTileset`. You should call it
+     * manually after editing tile data in the layer, since the GPU texture
+     * does not update automatically when tiles change.
      *
      * @method Phaser.Tilemaps.TilemapGPULayer#generateLayerDataTexture
      * @since 4.0.0

@@ -14,7 +14,15 @@ var WebGLTextureWrapper = require('../renderer/webgl/wrappers/WebGLTextureWrappe
  * @classdesc
  * A Texture Source is the encapsulation of the actual source data for a Texture.
  *
- * This is typically an Image Element, loaded from the file system or network, a Canvas Element or a Video Element.
+ * It wraps the raw pixel data — typically an Image Element loaded from the file system or
+ * network, a Canvas Element, or a Video Element — and manages the corresponding WebGL
+ * texture object used by the renderer. In WebGL mode, the TextureSource creates and owns
+ * the `WebGLTextureWrapper` that is uploaded to the GPU.
+ *
+ * You will not usually create a TextureSource directly. Instead, it is created automatically
+ * when a Texture is added to the Texture Manager. You can access it via `Texture.source`,
+ * which is an array of TextureSource instances. Most textures have a single source, but
+ * multi-atlas textures can have several.
  *
  * A Texture can contain multiple Texture Sources, which only happens when a multi-atlas is loaded.
  *
@@ -85,7 +93,7 @@ var TextureSource = new Class({
         this.image = (source.compressed) ? null : source;
 
         /**
-         * Holds the compressed textured algorithm, or `null` if it's not a compressed texture.
+         * Holds the compressed texture algorithm, or `null` if it's not a compressed texture.
          *
          * Prior to Phaser 3.60 this value always held `null`.
          *
@@ -108,7 +116,7 @@ var TextureSource = new Class({
 
         /**
          * The width of the source image. If not specified in the constructor it will check
-         * the `naturalWidth` and then `width` properties of the source image.
+         * the `naturalWidth`, `videoWidth`, and then `width` properties of the source image.
          *
          * @name Phaser.Textures.TextureSource#width
          * @type {number}
@@ -118,7 +126,7 @@ var TextureSource = new Class({
 
         /**
          * The height of the source image. If not specified in the constructor it will check
-         * the `naturalHeight` and then `height` properties of the source image.
+         * the `naturalHeight`, `videoHeight`, and then `height` properties of the source image.
          *
          * @name Phaser.Textures.TextureSource#height
          * @type {number}
@@ -194,7 +202,8 @@ var TextureSource = new Class({
         this.glTexture = null;
 
         /**
-         * Sets the `UNPACK_FLIP_Y_WEBGL` flag the WebGL Texture uses during upload.
+         * Whether the `UNPACK_FLIP_Y_WEBGL` flag is set on this WebGL Texture during upload.
+         * When `true`, the texture data is flipped vertically as it is uploaded to the GPU.
          *
          * @name Phaser.Textures.TextureSource#flipY
          * @type {boolean}
@@ -459,7 +468,11 @@ var TextureSource = new Class({
     },
 
     /**
-     * Destroys this Texture Source and nulls the references.
+     * Destroys this Texture Source and frees associated resources.
+     *
+     * In WebGL mode, the underlying WebGL texture is deleted from the GPU via the renderer.
+     * If the source is a canvas, it is returned to the CanvasPool. All internal references
+     * are then set to `null`.
      *
      * @method Phaser.Textures.TextureSource#destroy
      * @since 3.0.0

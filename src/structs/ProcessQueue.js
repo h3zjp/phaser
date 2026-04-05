@@ -21,6 +21,14 @@ var Events = require('./events');
  * being destroyed immediately. This allows the Process Queue to carefully process each item at a specific, fixed
  * time, rather than at the time of the request from the API.
  *
+ * Process Queue is used extensively within Phaser to safely manage collections of objects such as Cameras,
+ * Plugins, and Scene Systems, where items may be added or removed during an active update loop. By deferring
+ * additions and removals to a controlled point between updates, it avoids the bugs that would result from
+ * modifying a list while it is being iterated over.
+ *
+ * The queue extends EventEmitter and fires `Phaser.Structs.Events#PROCESS_QUEUE_ADD` when an item becomes
+ * active and `Phaser.Structs.Events#PROCESS_QUEUE_REMOVE` when an item is removed.
+ *
  * @class ProcessQueue
  * @extends Phaser.Events.EventEmitter
  * @memberof Phaser.Structs
@@ -90,7 +98,7 @@ var ProcessQueue = new Class({
         this._toProcess = 0;
 
         /**
-         * If `true` only unique objects will be allowed in the queue.
+         * If `true` only unique objects will be allowed in the queue, preventing the same item from being added more than once.
          *
          * @name Phaser.Structs.ProcessQueue#checkQueue
          * @type {boolean}

@@ -26,7 +26,7 @@ var TileSpriteGameObject = require('../gameobjects/tilesprite/TileSprite');
 /**
  * @callback EachTextureCallback
  *
- * @param {Phaser.Textures.Texture} texture - Each texture in Texture Manager.
+ * @param {Phaser.Textures.Texture} texture - Each texture in the Texture Manager.
  * @param {...*} [args] - Additional arguments that will be passed to the callback, after the child.
  */
 
@@ -252,7 +252,7 @@ var TextureManager = new Class({
     },
 
     /**
-     * Checks the given texture key and throws a console.warn if the key is already in use, then returns false.
+     * Checks the given texture key and logs a console.error if the key is already in use, then returns false.
      *
      * If you wish to avoid the console.warn then use `TextureManager.exists` instead.
      *
@@ -768,7 +768,7 @@ var TextureManager = new Class({
      *
      * It can accept either JSON Array or JSON Hash formats, as exported by Texture Packer and similar software.
      *
-     * As of Phaser 3.60 you can use this method to add a atlas data to an existing Phaser Texture.
+     * As of Phaser 3.60 you can use this method to add an atlas data set to an existing Phaser Texture.
      *
      * @method Phaser.Textures.TextureManager#addAtlas
      * @since 3.0.0
@@ -803,7 +803,7 @@ var TextureManager = new Class({
      *
      * This is known as a JSON Array in software such as Texture Packer.
      *
-     * As of Phaser 3.60 you can use this method to add a atlas data to an existing Phaser Texture.
+     * As of Phaser 3.60 you can use this method to add an atlas data set to an existing Phaser Texture.
      *
      * @method Phaser.Textures.TextureManager#addAtlasJSONArray
      * @fires Phaser.Textures.Events#ADD
@@ -872,7 +872,7 @@ var TextureManager = new Class({
      *
      * This is known as a JSON Hash in software such as Texture Packer.
      *
-     * As of Phaser 3.60 you can use this method to add a atlas data to an existing Phaser Texture.
+     * As of Phaser 3.60 you can use this method to add an atlas data set to an existing Phaser Texture.
      *
      * @method Phaser.Textures.TextureManager#addAtlasJSONHash
      * @fires Phaser.Textures.Events#ADD
@@ -933,7 +933,7 @@ var TextureManager = new Class({
      *
      * The frame data of the atlas must be stored in an XML file.
      *
-     * As of Phaser 3.60 you can use this method to add a atlas data to an existing Phaser Texture.
+     * As of Phaser 3.60 you can use this method to add an atlas data set to an existing Phaser Texture.
      *
      * @method Phaser.Textures.TextureManager#addAtlasXML
      * @fires Phaser.Textures.Events#ADD
@@ -984,7 +984,7 @@ var TextureManager = new Class({
      *
      * The frame data of the atlas must be stored in a Unity YAML file.
      *
-     * As of Phaser 3.60 you can use this method to add a atlas data to an existing Phaser Texture.
+     * As of Phaser 3.60 you can use this method to add an atlas data set to an existing Phaser Texture.
      *
      * @method Phaser.Textures.TextureManager#addUnityAtlas
      * @fires Phaser.Textures.Events#ADD

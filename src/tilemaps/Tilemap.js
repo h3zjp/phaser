@@ -41,7 +41,7 @@ var Tileset = require('./Tileset');
  * @param {number} index - The index of the object within the array.
  * @param {Phaser.GameObjects.GameObject[]} array - An array of all the objects found.
  *
- * @return {boolean} `true` if the callback should be invoked, otherwise `false`.
+ * @return {boolean} `true` if the object matches the search criteria, otherwise `false`.
  */
 
 /**
@@ -589,7 +589,7 @@ var Tilemap = new Class({
      * @param {number} [y=0] - The y position to place the layer in the world. If not specified, it will default to the layer offset from Tiled or 0.
      * @param {boolean} [gpu=false] - Create a TilemapGPULayer instead of a TilemapLayer. This option is WebGL-only. A TilemapGPULayer is less flexible, but can be much faster. It only works properly with orthographic tilemaps.
      *
-     * @return {?Phaser.Tilemaps.TilemapLayer|?Phaser.Tilemaps.TilemapGPULayer} Returns the new layer was created, or null if it failed.
+     * @return {?Phaser.Tilemaps.TilemapLayer|?Phaser.Tilemaps.TilemapGPULayer} Returns the new layer that was created, or null if it failed.
      */
     createLayer: function (layerID, tileset, x, y, gpu)
     {
@@ -1060,7 +1060,7 @@ var Tilemap = new Class({
     /**
      * For each tile in the given rectangular area (in tile coordinates) of the layer, run the given
      * filter callback function. Any tiles that pass the filter test (i.e. where the callback returns
-     * true) will returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
+     * true) will be returned as a new array. Similar to Array.prototype.Filter in vanilla JS.
      * If no layer specified, the map's current layer is used.
      *
      * @method Phaser.Tilemaps.Tilemap#filterTiles
@@ -1151,7 +1151,7 @@ var Tilemap = new Class({
      * Find the first tile in the given rectangular area (in tile coordinates) of the layer that
      * satisfies the provided testing function. I.e. finds the first tile for which `callback` returns
      * true. Similar to Array.prototype.find in vanilla JS.
-     * If no layer specified, the maps current layer is used.
+     * If no layer specified, the map's current layer is used.
      *
      * @method Phaser.Tilemaps.Tilemap#findTile
      * @since 3.0.0
@@ -2611,7 +2611,7 @@ var Tilemap = new Class({
      *  { index: 6, weight: 4 },    // Probability of index 6 is 4 / 8
      *  { index: 7, weight: 2 },    // Probability of index 7 would be 2 / 8
      *  { index: 8, weight: 1.5 },  // Probability of index 8 would be 1.5 / 8
-     *  { index: 26, weight: 0.5 }  // Probability of index 27 would be 0.5 / 8
+     *  { index: 26, weight: 0.5 }  // Probability of index 26 would be 0.5 / 8
      * ]
      *
      * The probability of any index being picked is (the indexs weight) / (sum of all weights). This
@@ -2717,7 +2717,7 @@ var Tilemap = new Class({
      * @param {Phaser.Cameras.Scene2D.Camera} [camera] - The Camera to use when calculating the tile index from the world values.
      * @param {(string|number|Phaser.Tilemaps.TilemapLayer)} [layer] - The tile layer to use. If not given the current layer is used.
      *
-     * @return {?Phaser.Math.Vector2} Returns a vec2, or null if the layer given was invalid.
+     * @return {?Phaser.Math.Vector2} Returns a Vector2, or null if the layer given was invalid.
      */
     worldToTileXY: function (worldX, worldY, snapToFloor, vec2, camera, layer)
     {

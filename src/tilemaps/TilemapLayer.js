@@ -13,8 +13,18 @@ var TintModes = require('../renderer/TintModes');
 
 /**
  * @classdesc
- * A Tilemap Layer is a Game Object that renders LayerData from a Tilemap when used in combination
- * with one, or more, Tilesets.
+ * A TilemapLayer is a Game Object responsible for rendering a single layer of tile data from a
+ * Tilemap. It works in combination with one or more Tileset objects, which provide the actual
+ * tile imagery. You would typically create a TilemapLayer via `Tilemap.createLayer`, rather than
+ * instantiating it directly.
+ *
+ * Each layer corresponds to a LayerData entry within the Tilemap, and supports all four map
+ * orientations: Orthogonal, Isometric, Hexagonal, and Staggered. The layer handles its own
+ * camera culling, only sending visible tiles to the renderer each frame, which keeps performance
+ * efficient even for large maps.
+ *
+ * TilemapLayers support physics via both Arcade Physics and Matter.js, and can have tints,
+ * alpha, and other standard Game Object properties applied to them.
  *
  * A TilemapLayer can be placed inside a Container, but its physics
  * will work as though it was placed directly in the world.
@@ -284,7 +294,7 @@ var TilemapLayer = new Class({
     },
 
     /**
-     * Returns the tiles in the given layer that are within the cameras viewport.
+     * Returns the tiles in the given layer that are within the camera's viewport.
      * This is used internally during rendering.
      *
      * @method Phaser.Tilemaps.TilemapLayer#cull
@@ -426,6 +436,15 @@ var TilemapLayer = new Class({
         return this.forEachTile(tintTile, this, tileX, tileY, width, height, filteringOptions);
     },
 
+    /**
+     * Destroys this TilemapLayer, clearing the culled tiles array and removing the cull callback.
+     * Also removes the layer from its parent Tilemap if `removeFromTilemap` is set to `true`.
+     *
+     * @method Phaser.Tilemaps.TilemapLayer#destroy
+     * @since 3.50.0
+     *
+     * @param {boolean} [removeFromTilemap=true] - Remove this layer from the parent Tilemap before destroying it.
+     */
     destroy: function (removeFromTilemap)
     {
         this.culledTiles.length = 0;

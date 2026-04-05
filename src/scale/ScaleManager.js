@@ -1492,7 +1492,7 @@ var ScaleManager = new Class({
      *
      * If the browser does not support this, a `FULLSCREEN_UNSUPPORTED` event will be emitted.
      *
-     * This method _must_ be called from a user-input gesture, such as `pointerdown`. You cannot launch
+     * This method _must_ be called from a `pointerup` user-input gesture (**not** `pointerdown`). You cannot launch
      * games fullscreen without this, as most browsers block it. Games within an iframe will also be blocked
      * from fullscreen unless the iframe has the `allowfullscreen` attribute.
      *
@@ -1616,13 +1616,18 @@ var ScaleManager = new Class({
     },
 
     /**
-     * Get Rectangle of visible area.
+     * Calculates and returns a Rectangle representing the currently visible area of the game canvas,
+     * accounting for the canvas position, parent bounds, and display scale. If the canvas extends
+     * beyond the visible area of the parent, the rectangle is clipped accordingly.
+     *
+     * An optional Camera can be provided, in which case the returned rectangle is further adjusted
+     * to account for the camera's zoom level and scroll position.
      *
      * @method Phaser.Scale.ScaleManager#getViewPort
      * @since 3.60.0
      *
-     * @param {Phaser.Cameras.Scene2D.Camera} [camera] - The camera this viewport is respond upon.
-     * @param {Phaser.Geom.Rectangle} [out] - The Rectangle of visible area.
+     * @param {Phaser.Cameras.Scene2D.Camera} [camera] - The camera to factor into the viewport calculation. If provided, the rectangle is adjusted for the camera's zoom and scroll.
+     * @param {Phaser.Geom.Rectangle} [out] - An optional Rectangle to store the result in. If not provided, a new Rectangle is created.
      *
      * @return {Phaser.Geom.Rectangle} The Rectangle of visible area.
      */
