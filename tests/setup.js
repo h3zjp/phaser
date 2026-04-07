@@ -1,18 +1,98 @@
 /**
  * Vitest global setup file.
  *
- * Provides a lightweight Canvas mock for jsdom, which does not implement
- * HTMLCanvasElement.getContext natively. This allows Phaser source files
- * that reference the Canvas API to be imported without throwing.
+ * Sets up the jsdom environment with Canvas/WebGL mocks and an Image mock
+ * that triggers onload (required for Phaser's TextureManager to boot).
  *
- * The mock returns a stub 2D context with no-op methods — sufficient for
- * unit testing logic that touches canvas but not for visual/rendering tests.
+ * Pure math/geometry/utility tests don't need any of this — they just
+ * require() the source directly. But tests that need real Phaser Game
+ * Objects use the helper in tests/helper.js which boots a headless
+ * Phaser Game on top of this environment.
  */
+
+// ── Globals that jsdom doesn't provide ──────────────────────────────────────
+
+if (typeof global.self === 'undefined')
+{
+    global.self = global;
+}
+
+if (typeof global.screen === 'undefined')
+{
+    global.screen = { width: 1920, height: 1080, orientation: { type: 'landscape-primary' } };
+}
+
+// Stub window.focus to suppress jsdom "Not implemented" warnings
+if (typeof window !== 'undefined')
+{
+    window.focus = function () {};
+}
+
+// Suppress jsdom "Not implemented" console errors (e.g., window.focus from VisibilityHandler)
+var _origConsoleError = console.error;
+
+console.error = function ()
+{
+    var msg = arguments[0];
+
+    if (typeof msg === 'string' && msg.indexOf('Not implemented') !== -1)
+    {
+        return;
+    }
+
+    _origConsoleError.apply(console, arguments);
+};
+
+// ── Image mock ──────────────────────────────────────────────────────────────
+// jsdom's Image doesn't fire onload because it has no image decoder.
+// Phaser's TextureManager loads base64 textures via Image and waits for
+// onload before emitting READY, which blocks the entire boot sequence.
+// This mock triggers onload asynchronously when src is set.
+
+var OriginalImage = global.Image;
+
+global.Image = function ()
+{
+    var img = {
+        width: 32,
+        height: 32,
+        naturalWidth: 32,
+        naturalHeight: 32,
+        complete: false,
+        crossOrigin: '',
+        onload: null,
+        onerror: null,
+        addEventListener: function (type, fn) { if (type === 'load') { img.onload = fn; } },
+        removeEventListener: function () {}
+    };
+
+    Object.defineProperty(img, 'src', {
+        set: function (val)
+        {
+            img._src = val;
+            img.complete = true;
+
+            setTimeout(function ()
+            {
+                if (typeof img.onload === 'function')
+                {
+                    img.onload();
+                }
+            }, 1);
+        },
+        get: function ()
+        {
+            return img._src || '';
+        }
+    });
+
+    return img;
+};
+
+// ── Canvas 2D Context mock ──────────────────────────────────────────────────
 
 if (typeof HTMLCanvasElement !== 'undefined')
 {
-    var origGetContext = HTMLCanvasElement.prototype.getContext;
-
     HTMLCanvasElement.prototype.getContext = function (type)
     {
         if (type === '2d' || type === '2D')
@@ -23,16 +103,28 @@ if (typeof HTMLCanvasElement !== 'undefined')
                 clearRect: function () {},
                 getImageData: function (x, y, w, h)
                 {
-                    return { data: new Array(w * h * 4).fill(0) };
+                    return { data: new Uint8ClampedArray(w * h * 4) };
                 },
                 putImageData: function () {},
-                createImageData: function (w, h) { return { data: new Array(w * h * 4).fill(0) }; },
+                createImageData: function (w, h)
+                {
+                    return { data: new Uint8ClampedArray(w * h * 4) };
+                },
                 setTransform: function () {},
                 resetTransform: function () {},
                 drawImage: function () {},
                 save: function () {},
-                fillText: function () {},
                 restore: function () {},
+                fillText: function () {},
+                strokeText: function () {},
+                measureText: function (text)
+                {
+                    return {
+                        width: text ? text.length * 6 : 0,
+                        actualBoundingBoxAscent: 8,
+                        actualBoundingBoxDescent: 2
+                    };
+                },
                 beginPath: function () {},
                 moveTo: function () {},
                 lineTo: function () {},
@@ -48,11 +140,14 @@ if (typeof HTMLCanvasElement !== 'undefined')
                 clip: function () {},
                 quadraticCurveTo: function () {},
                 bezierCurveTo: function () {},
-                measureText: function (text) { return { width: text ? text.length * 6 : 0 }; },
+                ellipse: function () {},
+                isPointInPath: function () { return false; },
                 createLinearGradient: function () { return { addColorStop: function () {} }; },
                 createRadialGradient: function () { return { addColorStop: function () {} }; },
                 createPattern: function () { return {}; },
                 transform: function () {},
+                setLineDash: function () {},
+                getLineDash: function () { return []; },
                 globalAlpha: 1,
                 globalCompositeOperation: 'source-over',
                 fillStyle: '#000000',
@@ -60,6 +155,7 @@ if (typeof HTMLCanvasElement !== 'undefined')
                 lineWidth: 1,
                 lineCap: 'butt',
                 lineJoin: 'miter',
+                lineDashOffset: 0,
                 miterLimit: 10,
                 shadowBlur: 0,
                 shadowColor: 'rgba(0, 0, 0, 0)',
@@ -154,12 +250,6 @@ if (typeof HTMLCanvasElement !== 'undefined')
                 drawingBufferWidth: 800,
                 drawingBufferHeight: 600
             };
-        }
-
-        // Fall back to original (returns null in jsdom)
-        if (origGetContext)
-        {
-            return origGetContext.call(this, type);
         }
 
         return null;

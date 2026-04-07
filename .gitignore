@@ -13,6 +13,7 @@ node_modules/
 
 # Build
 test-gen-logs/
+test-fix-logs/
 /npm-debug.log
 build/
 out/
