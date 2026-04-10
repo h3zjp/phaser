@@ -251,12 +251,18 @@ describe('Phaser.Textures.Parsers.AtlasXML', function ()
 
         var frame = addedFrames[1];
 
-        expect(frame.realWidth).toBe(50);
-        expect(frame.realHeight).toBe(50);
+        //  setTrim(actualWidth, actualHeight, destX, destY, destWidth, destHeight)
+        //  - actualWidth / actualHeight  → the ORIGINAL (untrimmed) sprite size,
+        //    stored as frame.realWidth / realHeight
+        //  - destX / destY               → the trim offset within the source
+        //  - destWidth / destHeight      → the TRIMMED (in-atlas) size that was
+        //    packed into the texture, captured here as trimWidth / trimHeight
+        expect(frame.realWidth).toBe(60);
+        expect(frame.realHeight).toBe(66);
         expect(frame.trimX).toBe(5);
         expect(frame.trimY).toBe(8);
-        expect(frame.trimWidth).toBe(60);
-        expect(frame.trimHeight).toBe(66);
+        expect(frame.trimWidth).toBe(50);
+        expect(frame.trimHeight).toBe(50);
     });
 
     it('should use Math.abs for frameX and frameY values', function ()
@@ -353,14 +359,21 @@ describe('Phaser.Textures.Parsers.AtlasXML', function ()
         var frameA = addedFrames[1];
         var frameB = addedFrames[2];
 
+        //  realWidth / realHeight are the ORIGINAL (untrimmed) sprite dimensions;
+        //  trimWidth / trimHeight are the TRIMMED in-atlas dimensions (the 5th and
+        //  6th arguments passed to setTrim).
+        expect(frameA.realWidth).toBe(34);
+        expect(frameA.realHeight).toBe(38);
         expect(frameA.trimX).toBe(2);
         expect(frameA.trimY).toBe(4);
-        expect(frameA.trimWidth).toBe(34);
-        expect(frameA.trimHeight).toBe(38);
+        expect(frameA.trimWidth).toBe(30);
+        expect(frameA.trimHeight).toBe(30);
 
+        expect(frameB.realWidth).toBe(22);
+        expect(frameB.realHeight).toBe(26);
         expect(frameB.trimX).toBe(1);
         expect(frameB.trimY).toBe(3);
-        expect(frameB.trimWidth).toBe(22);
-        expect(frameB.trimHeight).toBe(26);
+        expect(frameB.trimWidth).toBe(20);
+        expect(frameB.trimHeight).toBe(20);
     });
 });

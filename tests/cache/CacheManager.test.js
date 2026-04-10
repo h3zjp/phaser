@@ -78,11 +78,6 @@ describe('CacheManager', function ()
             expect(manager.html).toBeInstanceOf(BaseCache);
         });
 
-        it('should create an obj BaseCache', function ()
-        {
-            expect(manager.obj).toBeInstanceOf(BaseCache);
-        });
-
         it('should create a tilemap BaseCache', function ()
         {
             expect(manager.tilemap).toBeInstanceOf(BaseCache);
@@ -91,6 +86,21 @@ describe('CacheManager', function ()
         it('should create an xml BaseCache', function ()
         {
             expect(manager.xml).toBeInstanceOf(BaseCache);
+        });
+
+        it('should create an atlas BaseCache for Phaser Compact Texture Atlas data', function ()
+        {
+            expect(manager.atlas).toBeInstanceOf(BaseCache);
+        });
+
+        it('should allow entries to be added to the atlas cache', function ()
+        {
+            var decoded = { pages: [], folders: [], frames: {} };
+
+            manager.atlas.add('level1', decoded);
+
+            expect(manager.atlas.has('level1')).toBe(true);
+            expect(manager.atlas.get('level1')).toBe(decoded);
         });
 
         it('should initialise custom as an empty object', function ()
@@ -263,13 +273,6 @@ describe('CacheManager', function ()
             expect(manager.html).toBeNull();
         });
 
-        it('should null the obj cache', function ()
-        {
-            manager.destroy();
-
-            expect(manager.obj).toBeNull();
-        });
-
         it('should null the tilemap cache', function ()
         {
             manager.destroy();
@@ -282,6 +285,13 @@ describe('CacheManager', function ()
             manager.destroy();
 
             expect(manager.xml).toBeNull();
+        });
+
+        it('should null the atlas cache', function ()
+        {
+            manager.destroy();
+
+            expect(manager.atlas).toBeNull();
         });
 
         it('should null the custom object', function ()

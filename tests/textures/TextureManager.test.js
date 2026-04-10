@@ -460,4 +460,188 @@ describe('Phaser.Textures.TextureManager', function ()
             expect(tm.parseFrame({ key: 'player', frame: 'idle' })).toBe(mockFrame);
         });
     });
+
+    // -------------------------------------------------------------------------
+    // addAtlasPCT — Phaser Compact Texture Atlas support
+    // -------------------------------------------------------------------------
+
+    describe('addAtlasPCT', function ()
+    {
+        //  A minimal single-page decoded PCT structure
+        function makeDecoded ()
+        {
+            return {
+                pages: [
+                    { filename: 'atlas_0.png', format: 'RGBA8888', width: 64, height: 64, padding: 0 }
+                ],
+                folders: [],
+                frames: {
+                    logo: {
+                        key: 'logo', page: 0, x: 0, y: 0, w: 32, h: 32,
+                        trimmed: false, rotated: false,
+                        sourceW: 32, sourceH: 32, trimX: 0, trimY: 0
+                    }
+                }
+            };
+        }
+
+        function makeImage (width, height)
+        {
+            //  A plain image-like object. The TextureSource reads width from the
+            //  source itself when none is passed to the constructor, so providing
+            //  `width`/`height` directly is sufficient for the frame creation path.
+            return { width: width, height: height, naturalWidth: width, naturalHeight: height };
+        }
+
+        it('should return null when the key is already in use', function ()
+        {
+            tm.silentWarnings = true;
+            tm.list['taken'] = {};
+
+            var result = tm.addAtlasPCT('taken', makeImage(64, 64), makeDecoded());
+
+            expect(result).toBeNull();
+        });
+
+        it('should create a new Texture under the given key', function ()
+        {
+            tm.addAtlasPCT('level1', makeImage(64, 64), makeDecoded());
+
+            expect(tm.exists('level1')).toBe(true);
+        });
+
+        it('should return the created Texture', function ()
+        {
+            var result = tm.addAtlasPCT('level1', makeImage(64, 64), makeDecoded());
+
+            expect(result).toBe(tm.get('level1'));
+        });
+
+        it('should add a __BASE frame on the new Texture', function ()
+        {
+            var texture = tm.addAtlasPCT('level1', makeImage(64, 64), makeDecoded());
+
+            expect(texture.has('__BASE')).toBe(true);
+        });
+
+        it('should add each decoded frame to the new Texture', function ()
+        {
+            var texture = tm.addAtlasPCT('level1', makeImage(64, 64), makeDecoded());
+
+            expect(texture.has('logo')).toBe(true);
+        });
+
+        it('should copy pages and folders onto Texture.customData.pct', function ()
+        {
+            var decoded = makeDecoded();
+            decoded.folders = [ 'warrior' ];
+
+            var texture = tm.addAtlasPCT('level1', makeImage(64, 64), decoded);
+
+            expect(texture.customData.pct).toBeDefined();
+            expect(texture.customData.pct.pages).toBe(decoded.pages);
+            expect(texture.customData.pct.folders).toEqual([ 'warrior' ]);
+        });
+
+        it('should emit the ADD event with the texture key', function ()
+        {
+            var eventKey = null;
+
+            tm.on('addtexture', function (key)
+            {
+                eventKey = key;
+            });
+
+            tm.addAtlasPCT('level1', makeImage(64, 64), makeDecoded());
+
+            expect(eventKey).toBe('level1');
+        });
+
+        it('should support multi-source textures via an image array', function ()
+        {
+            var decoded = {
+                pages: [
+                    { filename: 'a.png', format: 'RGBA8888', width: 64, height: 64, padding: 0 },
+                    { filename: 'b.png', format: 'RGBA8888', width: 32, height: 32, padding: 0 }
+                ],
+                folders: [],
+                frames: {
+                    onPage0: { key: 'onPage0', page: 0, x: 0, y: 0, w: 16, h: 16, trimmed: false, rotated: false, sourceW: 16, sourceH: 16, trimX: 0, trimY: 0 },
+                    onPage1: { key: 'onPage1', page: 1, x: 0, y: 0, w: 8,  h: 8,  trimmed: false, rotated: false, sourceW: 8,  sourceH: 8,  trimX: 0, trimY: 0 }
+                }
+            };
+
+            var texture = tm.addAtlasPCT('multi', [
+                makeImage(64, 64),
+                makeImage(32, 32)
+            ], decoded);
+
+            expect(texture.source.length).toBe(2);
+            expect(texture.has('onPage0')).toBe(true);
+            expect(texture.has('onPage1')).toBe(true);
+
+            //  The frame on page 1 should reference source index 1
+            var f1 = texture.get('onPage1');
+            expect(f1.sourceIndex).toBe(1);
+        });
+    });
+
+    // -------------------------------------------------------------------------
+    // addAtlas dispatch — auto-detects the data format
+    // -------------------------------------------------------------------------
+
+    describe('addAtlas format dispatch', function ()
+    {
+        function makeImage (width, height)
+        {
+            return { width: width, height: height, naturalWidth: width, naturalHeight: height };
+        }
+
+        it('should dispatch PCT-shaped data to addAtlasPCT', function ()
+        {
+            var pctData = {
+                pages: [ { filename: 'a.png', format: 'RGBA8888', width: 64, height: 64, padding: 0 } ],
+                folders: [],
+                frames: {
+                    logo: { key: 'logo', page: 0, x: 0, y: 0, w: 16, h: 16, trimmed: false, rotated: false, sourceW: 16, sourceH: 16, trimX: 0, trimY: 0 }
+                }
+            };
+
+            var spy = vi.spyOn(tm, 'addAtlasPCT');
+
+            tm.addAtlas('level1', makeImage(64, 64), pctData);
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should dispatch JSON-array data to addAtlasJSONArray', function ()
+        {
+            var arrayData = {
+                frames: [
+                    { filename: 'a.png', frame: { x: 0, y: 0, w: 10, h: 10 }, trimmed: false, rotated: false }
+                ]
+            };
+
+            var spy = vi.spyOn(tm, 'addAtlasJSONArray');
+
+            tm.addAtlas('jsonarr', makeImage(64, 64), arrayData);
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should dispatch JSON-hash data to addAtlasJSONHash', function ()
+        {
+            var hashData = {
+                frames: {
+                    'a.png': { frame: { x: 0, y: 0, w: 10, h: 10 }, trimmed: false, rotated: false, sourceSize: { w: 10, h: 10 }, spriteSourceSize: { x: 0, y: 0, w: 10, h: 10 } }
+                }
+            };
+
+            var spy = vi.spyOn(tm, 'addAtlasJSONHash');
+
+            tm.addAtlas('jsonhash', makeImage(64, 64), hashData);
+
+            expect(spy).toHaveBeenCalled();
+        });
+    });
 });
